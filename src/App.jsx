@@ -34,7 +34,12 @@ function App() {
 			const { code, language } = lang;
 			return event === language.toLowerCase() || event === code.toLowerCase();
 		});
-		setLanguages(filteredLanguages);
+		if (filteredLanguages) {
+			setLanguages(filteredLanguages);
+		}
+		if (event.length === 0) {
+			setLanguages(codesArray);
+		}
 	}
 
 	function handleSwap(e) {}
