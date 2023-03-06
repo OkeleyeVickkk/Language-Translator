@@ -34,12 +34,6 @@ function App() {
 			const { code, language } = lang;
 			return event === language.toLowerCase() || event === code.toLowerCase();
 		});
-		// if (filteredLanguages.length === 0) {
-		// 	setLanguages((previous) => {
-		// 		console.log(previous);
-		// 		return [...previous];
-		// 	});
-		// }
 		setLanguages(filteredLanguages);
 	}
 
