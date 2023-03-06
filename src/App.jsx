@@ -21,7 +21,8 @@ function App() {
 	// hooks
 	const [languages, setLanguages] = useState(codesArray);
 	const [textInput, setTextInput] = useState("");
-	const [isOpen, setIsOpen] = useState(false);
+	const [isFromLangDropdownOpen, setFromLangDropdown] = useState(false);
+	const [isToLangDropdownOpen, setToLangDropdown] = useState(false);
 	const fromLangRef = useRef(null);
 	const toLangRef = useRef(null);
 
@@ -45,7 +46,10 @@ function App() {
 	}
 
 	function handleFromLangDropdown() {
-		setIsOpen((currentState) => !currentState);
+		setFromLangDropdown((currentState) => !currentState);
+	}
+	function handleToLangDropdown() {
+		setToLangDropdown((currentState) => !currentState);
 	}
 
 	function handleSwap(e) {}
@@ -78,16 +82,16 @@ function App() {
 											</button>
 											<div
 												ref={fromLangRef}
-												className={`transition duration-300 transform ease-in-out translate-y-5 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4  -top-4 ${
-													isOpen
-														? "opacity-100 visible -translate-y-8 pointer-events-auto"
-														: "opacity-0 visible pointer-events-none"
+												className={`transition duration-300 transform ease-in-out translate-y-8 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 ${
+													isFromLangDropdownOpen
+														? "opacity-100 -translate-y-9 pointer-events-auto"
+														: "opacity-0 pointer-events-none"
 												}`}>
 												<div className="input-container">
 													<div className="relative">
 														<input
 															type="text"
-															className=" border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
+															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
 															onChange={(e) => handleTheWriteUp(e.target.value)}
 															placeholder="Search by language/language code"
@@ -135,7 +139,7 @@ function App() {
 									<textarea
 										id="text-output"
 										rows="8"
-										className="resize-none block w-full rounded-tl-md rounded-tr-md  transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border"
+										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Translation"
 										required></textarea>
 									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
@@ -145,15 +149,56 @@ function App() {
 										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-300">
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
-										<button
-											id="dropdown_to_lang"
-											data-dropdown-toggle="dropdownSearch"
-											data-dropdown-placement="bottom"
-											className="flex items-center gap-2"
-											type="button">
-											<span className="text-sm font-semibold">English</span>
-											<Icon icon="ph:caret-down-bold" />
-										</button>
+										<div className="relative">
+											<button id="to_lang" className="flex items-center gap-2" type="button" onClick={handleToLangDropdown}>
+												<span className="text-sm font-semibold">English</span>
+												<Icon icon="ph:caret-down-bold" />
+											</button>
+											<div
+												ref={toLangRef}
+												className={`transition duration-300 transform ease-in-out translate-y-8 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 ${
+													isToLangDropdownOpen
+														? "opacity-100 -translate-y-9 pointer-events-auto"
+														: "opacity-0 pointer-events-none"
+												}`}>
+												<div className="input-container">
+													<div className="relative">
+														<input
+															type="text"
+															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
+															aria-label="input text"
+															onChange={(e) => handleTheWriteUp(e.target.value)}
+															placeholder="Search by language/language code"
+														/>
+														<input type="hidden" name="from_language" />
+														<Icon
+															icon="iconoir:search"
+															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+														/>
+													</div>
+													<div className="mt-2 flex flex-col gap-y-2">
+														<div className="bg-primary p-2 rounded-md">
+															<span className="text-xs text-white">183 Languages available </span>
+														</div>
+														<div className="country-codes-names h-44 overflow-y-scroll">
+															{languages &&
+																languages.map((lang, index) => {
+																	const { code, language } = lang;
+																	return (
+																		<button
+																			type="button"
+																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
+																			key={index}>
+																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
+																			<span className="text-xs">{language}</span>
+																		</button>
+																	);
+																})}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
