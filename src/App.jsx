@@ -21,6 +21,7 @@ function App() {
 	// hooks
 	const [languages, setLanguages] = useState(codesArray);
 	const [textInput, setTextInput] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
 	const fromLangRef = useRef(null);
 	const toLangRef = useRef(null);
 
@@ -29,24 +30,29 @@ function App() {
 	}, [textInput]);
 
 	// local functions
-	function handleTheWriteUp(event) {
+
+	function handleTheWriteUp(textValue) {
 		const filteredLanguages = codesArray.filter((lang) => {
 			const { code, language } = lang;
-			return event === language.toLowerCase() || event === code.toLowerCase();
+			return textValue.toLowerCase() === language.toLowerCase() || textValue.toLowerCase() === code.toLowerCase();
 		});
 		if (filteredLanguages) {
 			setLanguages(filteredLanguages);
 		}
-		if (event.length === 0) {
+		if (textValue.length === 0) {
 			setLanguages(codesArray);
 		}
+	}
+
+	function handleFromLangDropdown() {
+		setIsOpen((currentState) => !currentState);
 	}
 
 	function handleSwap(e) {}
 
 	return (
 		<div className="App">
-			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 items-center px-3 md:px-5">
+			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 items-center px-3 md:px-5 overflow-hidden">
 				<div className=" translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto">
 					<div className="pre-form-container ">
 						<form action="">
@@ -66,13 +72,17 @@ function App() {
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
-											<button id="_from_lang" className="flex items-center gap-2" type="button">
+											<button id="from_lang" className="flex items-center gap-2" type="button" onClick={handleFromLangDropdown}>
 												<span className="text-sm font-semibold">English</span>
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
 												ref={fromLangRef}
-												className="absolute rounded-md bg-white w-60 p-2 right-0 z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px]">
+												className={`transition duration-300 transform ease-in-out translate-y-5 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4  -top-4 ${
+													isOpen
+														? "opacity-100 visible -translate-y-8 pointer-events-auto"
+														: "opacity-0 visible pointer-events-none"
+												}`}>
 												<div className="input-container">
 													<div className="relative">
 														<input
@@ -80,8 +90,9 @@ function App() {
 															className=" border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
 															onChange={(e) => handleTheWriteUp(e.target.value)}
-															placeholder="Search by language code or name"
+															placeholder="Search by language/language code"
 														/>
+														<input type="hidden" name="from_language" />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -96,12 +107,13 @@ function App() {
 																languages.map((lang, index) => {
 																	const { code, language } = lang;
 																	return (
-																		<div
-																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold"
+																		<button
+																			type="button"
+																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
 																			key={index}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{language}</span>
-																		</div>
+																		</button>
 																	);
 																})}
 														</div>
