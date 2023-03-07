@@ -21,10 +21,34 @@ function App() {
 	const toLanguages = useHandleSearch(toLangSearch);
 
 	// local functions
+	async function translate() {
+		try {
+			const encodedParams = new URLSearchParams();
+			encodedParams.append("from", `${fromLanguage.current?.value}`);
+			encodedParams.append("to", `${toLanguage.current?.value}`);
+			encodedParams.append("text", `Bawo, Emi ni Vickkk ati pe Mo nṣiṣẹ idanwo kan lori API lati rii boya o ṣiṣẹ`);
+
+			const options = {
+				method: "POST",
+				headers: {
+					"content-type": "application/x-www-form-urlencoded",
+					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
+					"X-RapidAPI-Host": "translo.p.rapidapi.com",
+				},
+				body: encodedParams,
+			};
+
+			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
+			const data = await response.json();
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	function runTranslation(e) {
 		e.preventDefault();
-		console.log(toLanguage.current.value);
-		console.log(fromLanguage.current.value);
+		translate();
 	}
 
 	function handleFromSearch(value) {
@@ -48,30 +72,7 @@ function App() {
 		toLanguage.current.value = languageCode;
 	}
 
-	useEffect(() => {
-		console.log("Component Rendered");
-		// const from = fromLanguage.current.value;
-		// const to = toLanguage.current.value;
-		const encodedParams = new URLSearchParams();
-		encodedParams.append("from", "en");
-		encodedParams.append("to", "ru");
-		encodedParams.append("text", `Hoello`);
-
-		const options = {
-			method: "POST",
-			headers: {
-				"content-type": "application/x-www-form-urlencoded",
-				"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
-				"X-RapidAPI-Host": "translo.p.rapidapi.com",
-			},
-			body: encodedParams,
-		};
-
-		// fetch("https://translo.p.rapidapi.com/api/v3/translate", options)
-		// 	.then((response) => response.json())
-		// 	.then((response) => console.log(response))
-		// 	.catch((err) => console.error(err));
-	}, []);
+	useEffect(() => {}, [fromLanguage.current?.value, toLanguage.current?.value]);
 
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
