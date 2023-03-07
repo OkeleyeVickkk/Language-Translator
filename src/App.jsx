@@ -9,7 +9,7 @@ function App() {
 	const [fromLanguages, setFromLanguages] = useState(codesArray);
 	const [toLanguages, setToLanguages] = useState(codesArray);
 	const [fromLangSearch, setFromLangSearch] = useState("");
-	const [array] = useFilter(fromLangSearch);
+	const { array } = useFilter(fromLangSearch);
 
 	// dropdowns
 	const [isFromLangDropdownOpen, setFromLangDropdown] = useState(false);
@@ -200,7 +200,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => setToText(e.target.value)}
+															onChange={(e) => console.log(e)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="to_language" value="" ref={toLanguageHiddenInput} />

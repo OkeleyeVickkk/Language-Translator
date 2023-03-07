@@ -1,5 +1,5 @@
 import ISO6391 from "iso-639-1";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export let codesArray = [];
 const allLanguageCodes = [...ISO6391.getAllCodes()];
@@ -16,13 +16,20 @@ allLanguageCodes.forEach((code, codeIndex) => {
 });
 
 const useFilter = (textValue) => {
-	const [filteredLanguages, setfilteredLanguages] = useState([]);
+	const [filteredLanguages, setfilteredLanguages] = useState(null);
 
-	codesArray.filter((lang) => {
-		const { code, language } = lang;
-		return textValue?.toLowerCase() === language.toLowerCase() || textValue?.toLowerCase() === code.toLowerCase();
-	});
-	setfilteredLanguages(filteredLanguages);
+	useEffect(() => {
+		if (textValue) {
+			const filtered_lang = codesArray.filter((lang) => {
+				const { code, language } = lang;
+				return textValue?.toLowerCase() === language.toLowerCase() || textValue?.toLowerCase() === code.toLowerCase();
+			});
+			setfilteredLanguages(filtered_lang);
+		} else {
+			setfilteredLanguages(codesArray);
+		}
+	}, [textValue]);
+
 	return { filteredLanguages };
 };
 
