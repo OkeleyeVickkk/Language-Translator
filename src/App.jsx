@@ -1,29 +1,16 @@
-import ISO6391 from "iso-639-1";
 import "./App.css";
 import { Icon } from "@iconify-icon/react";
-import { useEffect } from "react";
-
-let codesArray = [];
-const allLanguageCodes = [...ISO6391.getAllCodes()];
-const allLanguages = [...ISO6391.getAllNames()];
-allLanguageCodes.forEach((code, codeIndex) => {
-	allLanguages.forEach((lang, index) => {
-		const language_code = {};
-		if (codeIndex === index) {
-			language_code["code"] = code;
-			language_code["language"] = lang;
-			codesArray.push(language_code);
-		}
-	});
-});
+import { useEffect, useState } from "react";
+import useHandleSearch from "./useHandleSearch";
 
 function App() {
-	// const filtered_lang = codesArray.filter((lang) => {
-	// 	const { code, language } = lang;
-	// 	return textValue?.toLowerCase() === language.toLowerCase() || textValue?.toLowerCase() === code.toLowerCase();
-	// });
+	const [searchText, setNewSearchText] = useState("");
+	// custom hook
+	const { languages } = useHandleSearch(searchText);
 
-	function handleSearch() {}
+	function handleSearch(value) {
+		setNewSearchText(value);
+	}
 
 	useEffect(() => {
 		const encodedParams = new URLSearchParams();
@@ -88,7 +75,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => console.log(e.target.value)}
+															onChange={(e) => handleSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="from_language" value="" />
@@ -104,9 +91,9 @@ function App() {
 															</span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto">
-															{codesArray &&
-																codesArray.map((lang, index) => {
-																	const { code, language } = lang;
+															{languages &&
+																languages.map((language, index) => {
+																	const { code, lang } = language;
 																	return (
 																		<button
 																			type="button"
@@ -114,7 +101,7 @@ function App() {
 																			key={index}
 																			onClick={() => console.log("Yes")}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
-																			<span className="text-xs">{language}</span>
+																			<span className="text-xs">{lang}</span>
 																		</button>
 																	);
 																})}
@@ -163,7 +150,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => console.log(e)}
+															onChange={(e) => handleSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="to_language" value="" />
@@ -177,9 +164,9 @@ function App() {
 															<span className="text-xs text-white font-semibold">Select language to translate to </span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto">
-															{codesArray &&
-																codesArray.map((lang, index) => {
-																	const { code, language } = lang;
+															{languages &&
+																languages.map((language, index) => {
+																	const { code, lang } = language;
 																	return (
 																		<button
 																			type="button"
@@ -187,7 +174,7 @@ function App() {
 																			key={index}
 																			onClick={() => console.log("No")}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
-																			<span className="text-xs">{language}</span>
+																			<span className="text-xs">{lang}</span>
 																		</button>
 																	);
 																})}
