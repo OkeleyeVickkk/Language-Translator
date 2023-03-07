@@ -13,14 +13,20 @@ function App() {
 	const [toTextarea, setToHiddenInput] = useState("");
 	const fromTextareaRef = useRef("");
 	const toTextareaRef = useRef("");
-	const toLanguage = useRef(null); //input
-	const fromLanguage = useRef(null);
+	const toLanguage = useRef(); //hidden input ref
+	const fromLanguage = useRef(); //hidden input ref
 
 	// custom hook
 	const fromLanguages = useHandleSearch(fromLangSearch);
 	const toLanguages = useHandleSearch(toLangSearch);
 
 	// local functions
+	function runTranslation(e) {
+		e.preventDefault();
+		console.log(toLanguage.current.value);
+		console.log(fromLanguage.current.value);
+	}
+
 	function handleFromSearch(value) {
 		setFromLangSearch(value);
 	}
@@ -34,15 +40,18 @@ function App() {
 		setToLangDropdown((togglePrevious) => !togglePrevious);
 	}
 	function setFromLanguage(languageCode, language) {
-		fromLanguage.current.value = languageCode;
 		document.querySelector("#from_lang span").textContent = language;
+		fromLanguage.current.value = languageCode;
 	}
 	function setToLanguage(languageCode, language) {
-		toLanguage.current.value = languageCode;
 		document.querySelector("#to_lang span").textContent = language;
+		toLanguage.current.value = languageCode;
 	}
 
 	useEffect(() => {
+		console.log("Component Rendered");
+		// const from = fromLanguage.current.value;
+		// const to = toLanguage.current.value;
 		const encodedParams = new URLSearchParams();
 		encodedParams.append("from", "en");
 		encodedParams.append("to", "ru");
@@ -72,7 +81,7 @@ function App() {
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden">
 				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 					<div className="pre-form-container ">
-						<form action="">
+						<form action="" onSubmit={runTranslation}>
 							<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
 								<div className="from_lang flex flex-col-reverse md:flex-col flex-grow w-full md:w-auto">
 									<textarea
@@ -107,7 +116,7 @@ function App() {
 															onChange={(e) => handleFromSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="from_language" value="" ref={fromLanguage} />
+														<input type="hidden" name="from_language" ref={fromLanguage} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -181,7 +190,7 @@ function App() {
 															onChange={(e) => handleToSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="to_language" value="" ref={toLanguage} />
+														<input type="hidden" name="to_language" ref={toLanguage} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
