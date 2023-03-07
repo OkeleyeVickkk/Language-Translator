@@ -15,9 +15,9 @@ allLanguageCodes.forEach((code, codeIndex) => {
 	});
 });
 
+// custom hook
 const useHandleSearch = (searchValue) => {
-	const [resultArray, setSearchResultArray] = useState([]);
-
+	const [languages, setSearchResultArray] = useState([]);
 	useEffect(() => {
 		if (searchValue) {
 			const newValue = searchValue.toLowerCase();
@@ -27,15 +27,13 @@ const useHandleSearch = (searchValue) => {
 				const newLang = lang.toLowerCase();
 				return newValue === newCode || newValue === newLang;
 			});
-			if (filteredSearchArray.length !== 0) {
-				setSearchResultArray(filteredSearchArray);
-			} else {
-				setSearchResultArray(codesArray);
-			}
+			filteredSearchArray.length !== 0 ? setSearchResultArray(filteredSearchArray) : setSearchResultArray(codesArray);
+		} else {
+			setSearchResultArray(codesArray);
 		}
 	}, [searchValue]);
 
-	return { resultArray };
+	return languages;
 };
 
 export default useHandleSearch;

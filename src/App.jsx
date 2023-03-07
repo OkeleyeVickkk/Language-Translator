@@ -4,12 +4,28 @@ import { useEffect, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
 function App() {
-	const [searchText, setNewSearchText] = useState("");
-	// custom hook
-	const { languages } = useHandleSearch(searchText);
+	// hooks
+	const [fromLangSearch, setFromLangSearch] = useState("");
+	const [toLangSearch, setToLangSearch] = useState("");
+	const [fromLangDropdown, setFromLangDropdown] = useState(false);
+	const [toLangDropdown, setToLangDropdown] = useState(false);
 
-	function handleSearch(value) {
-		setNewSearchText(value);
+	// custom hook
+	const fromLanguages = useHandleSearch(fromLangSearch);
+	const toLanguages = useHandleSearch(toLangSearch);
+
+	// local functions
+	function handleFromSearch(value) {
+		setFromLangSearch(value);
+	}
+	function handleToSearch(value) {
+		setToLangSearch(value);
+	}
+	function handleFromDropdown() {
+		setFromLangDropdown((togglePrevious) => !togglePrevious);
+	}
+	function handleToDropdown() {
+		setToLangDropdown((togglePrevious) => !togglePrevious);
 	}
 
 	useEffect(() => {
@@ -59,15 +75,13 @@ function App() {
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
-											<button id="from_lang" className="flex items-center gap-2" type="button">
+											<button id="from_lang" className="flex items-center gap-2" type="button" onClick={handleFromDropdown}>
 												<span className="text-sm font-semibold">English</span>
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
-												className={`transition duration-300 transform ease-in-out translate-y-8 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0
-													// isFromLangDropdownOpen
-													// 	? "opacity-100 -translate-y-9 pointer-events-auto"
-													// 	: "opacity-0 pointer-events-none"
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0
+													${fromLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -75,7 +89,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleSearch(e.target.value)}
+															onChange={(e) => handleFromSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="from_language" value="" />
@@ -91,8 +105,8 @@ function App() {
 															</span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto">
-															{languages &&
-																languages.map((language, index) => {
+															{fromLanguages &&
+																fromLanguages.map((language, index) => {
 																	const { code, lang } = language;
 																	return (
 																		<button
@@ -134,15 +148,13 @@ function App() {
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
-											<button id="to_lang" className="flex items-center gap-2" type="button">
+											<button id="to_lang" className="flex items-center gap-2" type="button" onClick={handleToDropdown}>
 												<span className="text-sm font-semibold">English</span>
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
-												className={`transition duration-300 transform ease-in-out translate-y-8 absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0 
-																// isToLangDropdownOpen
-													// 	? "opacity-100 -translate-y-9 pointer-events-auto"
-														// : "opacity-0 pointer-events-none"
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0 
+																${toLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -150,7 +162,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleSearch(e.target.value)}
+															onChange={(e) => handleToSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="to_language" value="" />
@@ -164,8 +176,8 @@ function App() {
 															<span className="text-xs text-white font-semibold">Select language to translate to </span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto">
-															{languages &&
-																languages.map((language, index) => {
+															{toLanguages &&
+																toLanguages.map((language, index) => {
 																	const { code, lang } = language;
 																	return (
 																		<button
