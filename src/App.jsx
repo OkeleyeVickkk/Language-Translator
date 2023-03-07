@@ -1,7 +1,7 @@
 import ISO6391 from "iso-639-1";
 import "./App.css";
 import { Icon } from "@iconify-icon/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 let codesArray = [];
 const allLanguageCodes = [...ISO6391.getAllCodes()];
@@ -19,29 +19,24 @@ allLanguageCodes.forEach((code, codeIndex) => {
 
 function App() {
 	// hooks
-	const [languages, setLanguages] = useState(codesArray);
-	const [textInput, setTextInput] = useState("");
+	const [fromLanguages, setFromLanguages] = useState(codesArray);
+	const [toLanguages, setToLanguages] = useState(codesArray);
 	const [isFromLangDropdownOpen, setFromLangDropdown] = useState(false);
 	const [isToLangDropdownOpen, setToLangDropdown] = useState(false);
 	const fromLangRef = useRef(null);
 	const toLangRef = useRef(null);
 
-	useEffect(() => {
-		// console.log(textInput);
-	}, [textInput]);
-
 	// local functions
-
-	function handleTheWriteUp(textValue) {
+	function handleDropdownText(textValue, flag) {
 		const filteredLanguages = codesArray.filter((lang) => {
 			const { code, language } = lang;
 			return textValue.toLowerCase() === language.toLowerCase() || textValue.toLowerCase() === code.toLowerCase();
 		});
 		if (filteredLanguages) {
-			setLanguages(filteredLanguages);
+			flag === "to" ? setToLanguages(filteredLanguages) : setFromLanguages(filteredLanguages);
 		}
 		if (textValue.length === 0) {
-			setLanguages(codesArray);
+			flag === "to" ? setToLanguages(codesArray) : setFromLanguages(codesArray);
 		}
 	}
 
@@ -93,7 +88,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleTheWriteUp(e.target.value)}
+															onChange={(e) => handleDropdownText(e.target.value, "from")}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="from_language" />
@@ -106,15 +101,16 @@ function App() {
 														<div className="bg-primary p-2 rounded-md">
 															<span className="text-xs text-white">183 Languages available </span>
 														</div>
-														<div className="country-codes-names h-44 overflow-y-scroll">
-															{languages &&
-																languages.map((lang, index) => {
+														<div className="country-codes-names h-44 overflow-y-auto">
+															{fromLanguages &&
+																fromLanguages.map((lang, index) => {
 																	const { code, language } = lang;
 																	return (
 																		<button
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
-																			key={index}>
+																			key={index}
+																			onClick={() => console.log(language)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{language}</span>
 																		</button>
@@ -167,7 +163,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleTheWriteUp(e.target.value)}
+															onChange={(e) => handleDropdownText(e.target.value, "to")}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="from_language" />
@@ -180,15 +176,16 @@ function App() {
 														<div className="bg-primary p-2 rounded-md">
 															<span className="text-xs text-white">183 Languages available </span>
 														</div>
-														<div className="country-codes-names h-44 overflow-y-scroll">
-															{languages &&
-																languages.map((lang, index) => {
+														<div className="country-codes-names h-44 overflow-y-auto">
+															{toLanguages &&
+																toLanguages.map((lang, index) => {
 																	const { code, language } = lang;
 																	return (
 																		<button
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
-																			key={index}>
+																			key={index}
+																			onClick={() => console.log(language)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{language}</span>
 																		</button>
