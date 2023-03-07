@@ -2,29 +2,24 @@ import ISO6391 from "iso-639-1";
 import "./App.css";
 import { Icon } from "@iconify-icon/react";
 import { useEffect, useRef, useState } from "react";
-
-let codesArray = [];
-const allLanguageCodes = [...ISO6391.getAllCodes()];
-const allLanguages = [...ISO6391.getAllNames()];
-allLanguageCodes.forEach((code, codeIndex) => {
-	allLanguages.forEach((lang, index) => {
-		const language_code = {};
-		if (codeIndex === index) {
-			language_code["code"] = code;
-			language_code["language"] = lang;
-			codesArray.push(language_code);
-		}
-	});
-});
+import useFilter, { codesArray } from "./useFilter";
 
 function App() {
 	// hooks
 	const [fromLanguages, setFromLanguages] = useState(codesArray);
 	const [toLanguages, setToLanguages] = useState(codesArray);
+	const [fromLangSearch, setFromLangSearch] = useState("");
+	const [array] = useFilter(fromLangSearch);
+
+	// dropdowns
 	const [isFromLangDropdownOpen, setFromLangDropdown] = useState(false);
 	const [isToLangDropdownOpen, setToLangDropdown] = useState(false);
+
+	// text inputs
 	const fromTextAreaRef = useRef(null);
 	const toTextAreaRef = useRef(null);
+
+	// hidden inputs
 	const fromLanguageHiddenInput = useRef(null);
 	const toLanguageHiddenInput = useRef(null);
 
@@ -32,19 +27,7 @@ function App() {
 	const fromLangRefDropdown = useRef(null);
 	const toLangRefDropdown = useRef(null);
 
-	// local functions
-	function handleDropdownText(textValue, flag) {
-		const filteredLanguages = codesArray.filter((lang) => {
-			const { code, language } = lang;
-			return textValue.toLowerCase() === language.toLowerCase() || textValue.toLowerCase() === code.toLowerCase();
-		});
-		if (filteredLanguages) {
-			flag === "to" ? setToLanguages(filteredLanguages) : setFromLanguages(filteredLanguages);
-		}
-		if (textValue.length === 0) {
-			flag === "to" ? setToLanguages(codesArray) : setFromLanguages(codesArray);
-		}
-	}
+	// <== local functions ==>
 
 	// functions that toggles the state of the dropdowns
 	function handleFromLangDropdown() {
@@ -54,29 +37,32 @@ function App() {
 		setToLangDropdown((currentState) => !currentState);
 	}
 
+	function updateFromLanguage(language, code) {
+		const fromLanguageContainer = document.querySelector("#from_lang span");
+		fromLanguageContainer.innerHTML = language;
+		fromLanguageHiddenInput.current.value = code;
+	}
+	function updateToLanguage(language, code) {
+		const toLanguageContainer = document.querySelector("#to_lang span");
+		toLanguageContainer.innerHTML = language;
+		toLanguageHiddenInput.current.value = code;
+	}
+
 	//function that triggers the translate when clicked
 	function runTranslation(e) {
 		e.preventDefault();
-	}
-
-	const fromLanguageContainer = document.querySelector("#from_lang span");
-	const fromHiddenInput = document.querySelector(".input-container input[name='from_language']");
-	const toLanguageContainer = document.querySelector("#to_lang span");
-	const toHiddenInput = document.querySelector(".input-container input[name='to_language']");
-	function updateLanguage(language, flag) {
-		flag === "from"
-			? ((fromLanguageContainer.innerHTML = language), (fromHiddenInput.value = language))
-			: ((toLanguageContainer.innerHTML = language), (toHiddenInput.value = language));
-		console.log(fromHiddenInput, toHiddenInput);
+		console.log(fromLanguageHiddenInput.current.value);
+		console.log(toLanguageHiddenInput.current.value);
 	}
 
 	useEffect(() => {
-		const fromValue = fromTextAreaRef.current.value;
-		const toValue = toTextAreaRef.current.value;
+		// const fromLangCode = fromLanguageHiddenInput.current.value;
+		// const toLangCode = toLanguageHiddenInput.current.value;
+
 		const encodedParams = new URLSearchParams();
 		encodedParams.append("from", "en");
 		encodedParams.append("to", "ru");
-		encodedParams.append("text", `${fromValue}`);
+		encodedParams.append("text", `Hoello`);
 
 		const options = {
 			method: "POST",
@@ -137,7 +123,7 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleDropdownText(e.target.value, "from")}
+															onChange={(e) => setFromLangSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
 														<input type="hidden" name="from_language" value="" ref={fromLanguageHiddenInput} />
@@ -161,7 +147,7 @@ function App() {
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF"
 																			key={index}
-																			onClick={() => updateLanguage(language, "from")}>
+																			onClick={() => updateFromLanguage(language, code)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{language}</span>
 																		</button>
@@ -214,10 +200,10 @@ function App() {
 															type="text"
 															className="border w-full focus:border-primary focus:outline-none p-2 pl-7 placeholder:text-xs rounded-md text-sm transition duration-[280ms] ease-in-out"
 															aria-label="input text"
-															onChange={(e) => handleDropdownText(e.target.value, "to")}
+															onChange={(e) => setToText(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="to_language" value="" />
+														<input type="hidden" name="to_language" value="" ref={toLanguageHiddenInput} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -236,7 +222,7 @@ function App() {
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
 																			key={index}
-																			onClick={() => updateLanguage(language, "to")}>
+																			onClick={() => updateToLanguage(language, code)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{language}</span>
 																		</button>
