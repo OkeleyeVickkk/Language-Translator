@@ -1,6 +1,6 @@
 import "./App.css";
 import { Icon } from "@iconify-icon/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
 function App() {
@@ -9,6 +9,12 @@ function App() {
 	const [toLangSearch, setToLangSearch] = useState("");
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
+	const [fromTextarea, setFromTextarea] = useState("");
+	const [toTextarea, setToHiddenInput] = useState("");
+	const fromTextareaRef = useRef("");
+	const toTextareaRef = useRef("");
+	const toLanguage = useRef(null); //input
+	const fromLanguage = useRef(null);
 
 	// custom hook
 	const fromLanguages = useHandleSearch(fromLangSearch);
@@ -26,6 +32,14 @@ function App() {
 	}
 	function handleToDropdown() {
 		setToLangDropdown((togglePrevious) => !togglePrevious);
+	}
+	function setFromLanguage(languageCode, language) {
+		fromLanguage.current.value = languageCode;
+		document.querySelector("#from_lang span").textContent = language;
+	}
+	function setToLanguage(languageCode, language) {
+		toLanguage.current.value = languageCode;
+		document.querySelector("#to_lang span").textContent = language;
 	}
 
 	useEffect(() => {
@@ -55,13 +69,14 @@ function App() {
 
 	return (
 		<div className="App">
-			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 items-center px-3 md:px-5 overflow-hidden">
-				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:-mt-16">
+			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden">
+				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 					<div className="pre-form-container ">
 						<form action="">
 							<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
-								<div className="from_lang flex flex-col flex-grow w-full md:w-auto">
+								<div className="from_lang flex flex-col-reverse md:flex-col flex-grow w-full md:w-auto">
 									<textarea
+										ref={fromTextareaRef}
 										id="text-input"
 										rows="8"
 										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
@@ -80,8 +95,8 @@ function App() {
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
-												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0
-													${fromLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
+													${fromLangDropdown ? "opacity-100 lg:-translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -92,7 +107,7 @@ function App() {
 															onChange={(e) => handleFromSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="from_language" value="" />
+														<input type="hidden" name="from_language" value="" ref={fromLanguage} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -113,7 +128,7 @@ function App() {
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF"
 																			key={index}
-																			onClick={() => console.log("Yes")}>
+																			onClick={() => setFromLanguage(code, lang)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{lang}</span>
 																		</button>
@@ -136,6 +151,7 @@ function App() {
 
 								<div className="to_lang flex flex-col flex-grow w-full md:w-auto">
 									<textarea
+										ref={toTextareaRef}
 										id="text-output"
 										rows="8"
 										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
@@ -153,8 +169,8 @@ function App() {
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
-												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] -translate-x-4 top-0 
-																${toLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0 
+																${toLangDropdown ? "opacity-100 lg:-translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -165,7 +181,7 @@ function App() {
 															onChange={(e) => handleToSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="to_language" value="" />
+														<input type="hidden" name="to_language" value="" ref={toLanguage} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -184,7 +200,7 @@ function App() {
 																			type="button"
 																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
 																			key={index}
-																			onClick={() => console.log("No")}>
+																			onClick={() => setToLanguage(code, lang)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{lang}</span>
 																		</button>
