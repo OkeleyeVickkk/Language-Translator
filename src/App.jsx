@@ -15,20 +15,21 @@ function App() {
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef();
 	const toTextareaRef = useRef("");
+	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState();
+	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState();
 	const toLanguage = useRef(); //hidden input ref
 	const fromLanguage = useRef(); //hidden input ref
 
 	// custom hook
-	const fromLanguages = useHandleSearch(fromLangSearch);
-	const toLanguages = useHandleSearch(toLangSearch);
+	const fromLanguages = useHandleSearch(fromLangSearch); //for the fromDropdown input
+	const toLanguages = useHandleSearch(toLangSearch); // for the toDropdown input
 
 	// local functions
 	async function translate() {
-		console.log(fromTextareaRef.current.value);
 		try {
 			const encodedParams = new URLSearchParams();
-			encodedParams.append("from", `${fromLanguage.current?.value}`);
-			encodedParams.append("to", `${toLanguage.current?.value}`);
+			encodedParams.append("from", `${fromLanguageHiddenInput}`);
+			encodedParams.append("to", `${toLanguageHiddenInput}`);
 			encodedParams.append("text", `${fromTextareaRef.current.value}`);
 			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
@@ -44,6 +45,7 @@ function App() {
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
 			const data = await response.json();
+			console.log(data);
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
@@ -68,18 +70,18 @@ function App() {
 	}
 	function setFromLanguage(languageCode, language, index) {
 		document.querySelector("#from_lang span").textContent = language;
-		fromLanguage.current.value = languageCode;
 		handleFromDropdown();
 		setFromButtonState(index);
+		setFromLanguageHiddenInput(languageCode);
 	}
 	function setToLanguage(languageCode, language, index) {
 		document.querySelector("#to_lang span").textContent = language;
-		toLanguage.current.value = languageCode;
 		handleToDropdown();
 		setToButtonState(index);
+		setToLanguageHiddenInput(languageCode);
 	}
 
-	useEffect(() => {}, [fromLanguage.current?.value, toLanguage.current?.value]);
+	useEffect(() => {}, [toLanguageHiddenInput, fromLanguageHiddenInput]);
 
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
@@ -126,7 +128,7 @@ function App() {
 															onChange={(e) => handleFromSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="from_language" ref={fromLanguage} />
+														<input type="hidden" name="from_language" defaultValue="en" value={fromLanguageHiddenInput} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -188,7 +190,7 @@ function App() {
 										</button>
 										<div className="relative">
 											<button id="to_lang" className="flex items-center gap-2" type="button" onClick={handleToDropdown}>
-												<span className="text-sm font-semibold">English</span>
+												<span className="text-sm font-semibold">French</span>
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
@@ -204,7 +206,7 @@ function App() {
 															onChange={(e) => handleToSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="to_language" ref={toLanguage} />
+														<input type="hidden" name="to_language" defaultValue="fr" value={toLanguageHiddenInput} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
