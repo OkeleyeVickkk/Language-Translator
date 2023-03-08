@@ -82,6 +82,15 @@ function App() {
 
 	useEffect(() => {}, [toLanguageHiddenInput, fromLanguageHiddenInput]);
 
+	function handleCopyText() {
+		const clippy = navigator.clipboard;
+		if (clippy && fromTextareaRef.current.value) {
+			console.log(Navigator.share(fromTextareaRef.current.value));
+		} else {
+			console.log("False");
+		}
+	}
+
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
 
@@ -104,7 +113,10 @@ function App() {
 										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="iconoir:sound-high" />
 										</button>
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
+										<button
+											type="button"
+											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
+											onClick={handleCopyText}>
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
