@@ -85,7 +85,7 @@ function App() {
 	function handleCopyText() {
 		const clippy = navigator.clipboard;
 		if (clippy && fromTextareaRef.current.value) {
-			Navigator.share(fromTextareaRef.current.value);
+			navigator.share(fromTextareaRef.current.value);
 		} else {
 			console.log("False");
 		}
