@@ -5,14 +5,15 @@ import useHandleSearch from "./useHandleSearch";
 
 function App() {
 	// hooks
+	const [fromButtonState, setFromButtonState] = useState(null);
+	const [toButtonState, setToButtonState] = useState(false);
 	const [fromLangSearch, setFromLangSearch] = useState("");
 	const [toLangSearch, setToLangSearch] = useState("");
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(null);
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
-	const [fromTextarea, setFromTextarea] = useState("");
-	const [toTextarea, setToHiddenInput] = useState("");
-	const fromTextareaRef = useRef("");
+	const fromTextareaRef = useRef();
 	const toTextareaRef = useRef("");
 	const toLanguage = useRef(); //hidden input ref
 	const fromLanguage = useRef(); //hidden input ref
@@ -23,11 +24,12 @@ function App() {
 
 	// local functions
 	async function translate() {
+		console.log(fromTextareaRef.current.value);
 		try {
 			const encodedParams = new URLSearchParams();
 			encodedParams.append("from", `${fromLanguage.current?.value}`);
 			encodedParams.append("to", `${toLanguage.current?.value}`);
-			encodedParams.append("text", `I want to urinate`);
+			encodedParams.append("text", `${fromTextareaRef.current.value}`);
 			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
 			const options = {
@@ -42,9 +44,8 @@ function App() {
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
 			const data = await response.json();
-			console.log(data);
 		} catch (error) {
-			setError(error);
+			setError("Error trying to translate what you entered");
 		}
 	}
 
@@ -65,13 +66,18 @@ function App() {
 	function handleToDropdown() {
 		setToLangDropdown((togglePrevious) => !togglePrevious);
 	}
-	function setFromLanguage(languageCode, language) {
+	function setFromLanguage(languageCode, language, index) {
 		document.querySelector("#from_lang span").textContent = language;
 		fromLanguage.current.value = languageCode;
+		handleFromDropdown();
+		setToLangDropdown(false);
+		setFromButtonState(index);
 	}
 	function setToLanguage(languageCode, language) {
 		document.querySelector("#to_lang span").textContent = language;
 		toLanguage.current.value = languageCode;
+		handleToDropdown();
+		setFromLangDropdown(false);
 	}
 
 	useEffect(() => {}, [fromLanguage.current?.value, toLanguage.current?.value]);
@@ -131,16 +137,20 @@ function App() {
 																Select language to translate from
 															</span>
 														</div>
-														<div className="country-codes-names h-44 overflow-y-auto">
+														<div className="country-codes-names h-44 overflow-y-auto flex flex-col gap-y-1">
 															{fromLanguages &&
 																fromLanguages.map((language, index) => {
 																	const { code, lang } = language;
 																	return (
 																		<button
 																			type="button"
-																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF"
+																			className={` flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-300 transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF ${
+																				fromButtonState === index
+																					? "bg-primary text-white bg-opacity-70 hover:text-white hover:bg-opacity-90 hover:bg-primary"
+																					: "bg-transparent text-gray-900"
+																			}`}
 																			key={index}
-																			onClick={() => setFromLanguage(code, lang)}>
+																			onClick={() => setFromLanguage(code, lang, index)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{lang}</span>
 																		</button>
