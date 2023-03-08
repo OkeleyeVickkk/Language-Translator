@@ -70,20 +70,21 @@ function App() {
 		document.querySelector("#from_lang span").textContent = language;
 		fromLanguage.current.value = languageCode;
 		handleFromDropdown();
-		setToLangDropdown(false);
 		setFromButtonState(index);
 	}
-	function setToLanguage(languageCode, language) {
+	function setToLanguage(languageCode, language, index) {
 		document.querySelector("#to_lang span").textContent = language;
 		toLanguage.current.value = languageCode;
 		handleToDropdown();
-		setFromLangDropdown(false);
+		setToButtonState(index);
 	}
 
 	useEffect(() => {}, [fromLanguage.current?.value, toLanguage.current?.value]);
 
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
+
+	// !problem => how can i add default value to value attributes and change them later
 
 	return (
 		<div className="App">
@@ -101,10 +102,10 @@ function App() {
 										placeholder="Enter text"
 										required></textarea>
 									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-300">
+										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="iconoir:sound-high" />
 										</button>
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-300">
+										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
@@ -144,10 +145,10 @@ function App() {
 																	return (
 																		<button
 																			type="button"
-																			className={` flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-300 transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF ${
+																			className={` flex items-center justify-start gap-4 py-1 px-2  transition duration-300 ease-in-out rounded-md font-semibold w-full _aof23IF ${
 																				fromButtonState === index
 																					? "bg-primary text-white bg-opacity-70 hover:text-white hover:bg-opacity-90 hover:bg-primary"
-																					: "bg-transparent text-gray-900"
+																					: "bg-transparent text-gray-900 hover:bg-gray-200"
 																			}`}
 																			key={index}
 																			onClick={() => setFromLanguage(code, lang, index)}>
@@ -179,10 +180,10 @@ function App() {
 										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Translation"></textarea>
 									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-300">
+										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="iconoir:sound-high" />
 										</button>
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-300">
+										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
@@ -191,7 +192,7 @@ function App() {
 												<Icon icon="ph:caret-down-bold" />
 											</button>
 											<div
-												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0 
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
 																${toLangDropdown ? "opacity-100 lg:-translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
@@ -220,9 +221,13 @@ function App() {
 																	return (
 																		<button
 																			type="button"
-																			className="flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full"
+																			className={`flex items-center justify-start gap-4 py-1 px-2 hover:bg-gray-100 transition duration-300 ease-in-out rounded-md font-semibold w-full  ${
+																				toButtonState === index
+																					? "bg-primary text-white bg-opacity-70 hover:text-white hover:bg-opacity-90 hover:bg-primary"
+																					: "bg-transparent text-gray-900 hover:bg-gray-200"
+																			}`}
 																			key={index}
-																			onClick={() => setToLanguage(code, lang)}>
+																			onClick={() => setToLanguage(code, lang, index)}>
 																			<span className="text-xs p-1">{code?.toUpperCase()}</span>
 																			<span className="text-xs">{lang}</span>
 																		</button>
