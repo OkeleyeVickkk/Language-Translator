@@ -14,9 +14,9 @@ function App() {
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef();
-	const toTextareaRef = useRef("");
-	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
+	const toTextareaRef = useRef();
 	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState("en"); //hidden input to
+	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
 
 	// custom hook
 	const fromLanguages = useHandleSearch(fromLangSearch); //for the fromDropdown input
@@ -43,7 +43,8 @@ function App() {
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
 			const data = await response.json();
-			console.log(data);
+			const { ok, translated_text, error } = data;
+			ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
