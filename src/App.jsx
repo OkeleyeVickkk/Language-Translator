@@ -7,6 +7,7 @@ function App() {
 	// hooks
 	const [fromLangSearch, setFromLangSearch] = useState("");
 	const [toLangSearch, setToLangSearch] = useState("");
+	const [error, setError] = useState(null);
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const [fromTextarea, setFromTextarea] = useState("");
@@ -26,13 +27,14 @@ function App() {
 			const encodedParams = new URLSearchParams();
 			encodedParams.append("from", `${fromLanguage.current?.value}`);
 			encodedParams.append("to", `${toLanguage.current?.value}`);
-			encodedParams.append("text", `Bawo, Emi ni Vickkk ati pe Mo nṣiṣẹ idanwo kan lori API lati rii boya o ṣiṣẹ`);
+			encodedParams.append("text", `I want to urinate`);
+			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
 			const options = {
 				method: "POST",
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
+					"X-RapidAPI-Key": `${API_KEY_ONE}`,
 					"X-RapidAPI-Host": "translo.p.rapidapi.com",
 				},
 				body: encodedParams,
@@ -42,7 +44,7 @@ function App() {
 			const data = await response.json();
 			console.log(data);
 		} catch (error) {
-			console.log(error);
+			setError(error);
 		}
 	}
 
