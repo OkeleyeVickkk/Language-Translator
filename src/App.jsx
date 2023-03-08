@@ -15,10 +15,8 @@ function App() {
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef();
 	const toTextareaRef = useRef("");
-	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState();
-	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState();
-	const toLanguage = useRef(); //hidden input ref
-	const fromLanguage = useRef(); //hidden input ref
+	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
+	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState("en"); //hidden input to
 
 	// custom hook
 	const fromLanguages = useHandleSearch(fromLangSearch); //for the fromDropdown input
@@ -86,8 +84,6 @@ function App() {
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
 
-	// !problem => how can i add default value to value attributes and change them later
-
 	return (
 		<div className="App">
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden">
@@ -128,7 +124,7 @@ function App() {
 															onChange={(e) => handleFromSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="from_language" defaultValue="en" value={fromLanguageHiddenInput} />
+														<input type="hidden" name="from_language" value={fromLanguageHiddenInput} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -206,7 +202,7 @@ function App() {
 															onChange={(e) => handleToSearch(e.target.value)}
 															placeholder="Search by language/language code"
 														/>
-														<input type="hidden" name="to_language" defaultValue="fr" value={toLanguageHiddenInput} />
+														<input type="hidden" name="to_language" value={toLanguageHiddenInput} />
 														<Icon
 															icon="iconoir:search"
 															className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
