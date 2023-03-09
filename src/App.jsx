@@ -5,16 +5,17 @@ import useHandleSearch from "./useHandleSearch";
 
 function App() {
 	// hooks
-	const [fromButtonState, setFromButtonState] = useState(null);
-	const [toButtonState, setToButtonState] = useState(false);
+	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
+	const [toButtonState, setToButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [fromLangSearch, setFromLangSearch] = useState("");
 	const [toLangSearch, setToLangSearch] = useState("");
-	const [error, setError] = useState(null);
-	const [loading, setLoading] = useState(null);
+	const [error, setError] = useState(null); //set error if failed
+	const [success, setSuccess] = useState(null); //set success if successful
+	const [loading, setLoading] = useState(null); //loading to get result of translation
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
-	const fromTextareaRef = useRef();
-	const toTextareaRef = useRef();
+	const fromTextareaRef = useRef(); //ref of the textarea
+	const toTextareaRef = useRef(); //ref of the textarea
 	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState("en"); //hidden input to
 	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
 
@@ -26,25 +27,53 @@ function App() {
 	async function translate() {
 		try {
 			const encodedParams = new URLSearchParams();
-			encodedParams.append("from", `${fromLanguageHiddenInput}`);
-			encodedParams.append("to", `${toLanguageHiddenInput}`);
+			encodedParams.append("source_language", `${fromLanguageHiddenInput}`);
+			encodedParams.append("target_language", `${toLanguageHiddenInput}`);
 			encodedParams.append("text", `${fromTextareaRef.current.value}`);
-			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
 			const options = {
 				method: "POST",
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": `${API_KEY_ONE}`,
-					"X-RapidAPI-Host": "translo.p.rapidapi.com",
+					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
+					"X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
 				},
 				body: encodedParams,
 			};
 
-			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
-			const data = await response.json();
-			const { ok, translated_text, error } = data;
-			ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
+			fetch("https://text-translator2.p.rapidapi.com/translate", options)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+					const {
+						status,
+						data: { translatedText },
+						message,
+					} = data;
+					status === "success" ? (toTextareaRef.current.value = translatedText) : null;
+					status === "error" ? setError(message) : null;
+				});
+
+			// const encodedParams = new URLSearchParams();
+			// encodedParams.append("from", `${fromLanguageHiddenInput}`);
+			// encodedParams.append("to", `${toLanguageHiddenInput}`);
+			// encodedParams.append("text", `${fromTextareaRef.current.value}`);
+			// const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
+
+			// const options = {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"content-type": "application/x-www-form-urlencoded",
+			// 		"X-RapidAPI-Key": `${API_KEY_ONE}`,
+			// 		"X-RapidAPI-Host": "translo.p.rapidapi.com",
+			// 	},
+			// 	body: encodedParams,
+			// };
+
+			// const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
+			// const data = await response.json();
+			// const { ok, translated_text, error } = data;
+			// ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
@@ -85,7 +114,6 @@ function App() {
 	function handleCopyText() {
 		const clippy = navigator.clipboard;
 		if (clippy && fromTextareaRef.current.value) {
-			navigator.share(fromTextareaRef.current.value);
 		} else {
 			console.log("False");
 		}
@@ -96,7 +124,17 @@ function App() {
 
 	return (
 		<div className="App">
-			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden">
+			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
+				<div className="flex flex-col top-2 right-2 z-10 fixed gap-1">
+					<div className="transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-48 h-max py-3 px-2 flex items-center gap-2">
+						<Icon icon="fa-solid:check-circle" className="text-green-600" />
+						<small className="font-semibold text-sm">Text copied</small>
+					</div>
+					<div className="transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-48 h-max py-3 px-2 flex items-center gap-2 ">
+						<Icon icon="material-symbols:cancel-rounded" className="text-red-500 scale-110" />
+						<small className="font-semibold text-sm">Error occured</small>
+					</div>
+				</div>
 				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 					<div className="pre-form-container ">
 						<form action="" onSubmit={runTranslation}>
