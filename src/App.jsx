@@ -3,6 +3,8 @@ import { Icon } from "@iconify-icon/react";
 import { useEffect, useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
+const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
+
 function App() {
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
@@ -57,13 +59,12 @@ function App() {
 			encodedParams.append("from", `${fromLanguageHiddenInput}`);
 			encodedParams.append("to", `${toLanguageHiddenInput}`);
 			encodedParams.append("text", `${fromTextareaRef.current.value}`);
-			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
 			const options = {
 				method: "POST",
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": `6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a`,
+					"X-RapidAPI-Key": `${API_KEY_ONE}`,
 					"X-RapidAPI-Host": "translo.p.rapidapi.com",
 				},
 				body: encodedParams,
