@@ -160,7 +160,7 @@ function App() {
 												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
 												<Icon icon="iconoir:sound-high" />
 											</button>
-											<span className="text-[10px] font-semibold">Read</span>
+											<span className="text-[10px] font-semibold leading-none">Read</span>
 										</div>
 										<div className="flex flex-col items-center">
 											<button
@@ -169,7 +169,7 @@ function App() {
 												onClick={() => handleCopyText(fromTextareaRef)}>
 												<Icon icon="fluent:clipboard-24-regular" />
 											</button>
-											<span className="text-[10px] font-semibold">Copy</span>
+											<span className="text-[10px] font-semibold leading-none">Copy</span>
 										</div>
 										<div className="flex flex-col items-center">
 											<button
@@ -178,16 +178,23 @@ function App() {
 												onClick={() => handlePasteText(fromTextareaRef)}>
 												<Icon icon="fluent:clipboard-paste-24-regular" />
 											</button>
-											<span className="text-[10px] font-semibold">Paste</span>
+											<span className="text-[10px] font-semibold leading-none">Paste</span>
 										</div>
 										<div className="relative">
-											<button id="from_lang" className="flex items-center gap-2" type="button" onClick={handleFromDropdown}>
-												<span className="text-sm font-semibold">English</span>
-												<Icon icon="ph:caret-down-bold" />
-											</button>
+											<div className="flex flex-col items-start">
+												<button
+													id="from_lang"
+													className="flex items-center gap-2 pt-2 pb-1"
+													type="button"
+													onClick={handleFromDropdown}>
+													<span className="text-xs font-bold">English</span>
+													<Icon icon="ph:caret-down-bold" />
+												</button>
+												<span className="text-[10px] font-semibold leading-none">Select lang</span>
+											</div>
 											<div
 												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
-													${fromLangDropdown ? "opacity-100 lg:-translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+													${fromLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -259,7 +266,7 @@ function App() {
 												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
 												<Icon icon="iconoir:sound-high" />
 											</button>
-											<span className="text-[10px] font-semibold">Speak</span>
+											<span className="text-[10px] font-semibold leading-none">Speak</span>
 										</div>
 										<div className="flex flex-col items-center">
 											<button
@@ -268,7 +275,7 @@ function App() {
 												onClick={() => handleCopyText(toTextareaRef)}>
 												<Icon icon="fluent:clipboard-24-regular" />
 											</button>
-											<span className="text-[10px] font-semibold">Copy</span>
+											<span className="text-[10px] font-semibold leading-none">Copy</span>
 										</div>
 										<div className="flex flex-col items-center">
 											<button
@@ -277,16 +284,23 @@ function App() {
 												onClick={() => handlePasteText(toTextareaRef)}>
 												<Icon icon="fluent:clipboard-paste-24-regular" />
 											</button>
-											<span className="text-[10px] font-semibold">Paste</span>
+											<span className="text-[10px] font-semibold leading-none">Paste</span>
 										</div>
 										<div className="relative">
-											<button id="to_lang" className="flex items-center gap-2" type="button" onClick={handleToDropdown}>
-												<span className="text-sm font-semibold">French</span>
-												<Icon icon="ph:caret-down-bold" />
-											</button>
+											<div className="flex flex-col items-start">
+												<button
+													id="to_lang"
+													className="flex items-center gap-2 pt-2 pb-1"
+													type="button"
+													onClick={handleToDropdown}>
+													<span className="text-xs font-bold">French</span>
+													<Icon icon="ph:caret-down-bold" />
+												</button>
+												<span className="text-[10px] font-semibold leading-none">Select lang</span>
+											</div>
 											<div
 												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
-																${toLangDropdown ? "opacity-100 lg:-translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+																${toLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -334,14 +348,16 @@ function App() {
 									</div>
 								</div>
 							</div>
-							<div className="submit-button text-center mt-4">
+							<div className="submit-button text-center mt-8">
 								<button
 									type="submit"
-									className="transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4">
+									className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 ${
+										loading ? "cursor-not-allowed" : "cursor-pointer"
+									}`}>
 									<span className=" text-white font-semibold text-sm">Translate Text</span>
 									<div
 										className={`h-7 w-7 border-2 border-l-transparent rounded-full animate-spin ${
-											loading === false ? "hidden" : "inline"
+											loading === false ? "invisible" : "visible"
 										}`}></div>
 								</button>
 							</div>
