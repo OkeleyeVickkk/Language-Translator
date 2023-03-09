@@ -46,6 +46,7 @@ function App() {
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
 			const data = await response.json();
+			setLoading(false);
 			const { ok, translated_text, error } = data;
 
 			ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
@@ -57,6 +58,7 @@ function App() {
 	function runTranslation(e) {
 		e.preventDefault();
 		translate();
+		setLoading(true);
 	}
 
 	function handleFromSearch(value) {
@@ -147,19 +149,37 @@ function App() {
 										ref={fromTextareaRef}
 										id="text-input"
 										rows="8"
+										spellCheck="false"
 										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Enter text"
 										required></textarea>
-									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
-											<Icon icon="iconoir:sound-high" />
-										</button>
-										<button
-											type="button"
-											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
-											onClick={() => handleCopyText(fromTextareaRef)}>
-											<Icon icon="fluent:clipboard-24-regular" />
-										</button>
+									<div className="border pt-3 pb-2 flex items-center justify-around rounded-bl-md rounded-br-md">
+										<div className="flex items-center flex-col">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
+												<Icon icon="iconoir:sound-high" />
+											</button>
+											<span className="text-[10px] font-semibold">Read</span>
+										</div>
+										<div className="flex flex-col items-center">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={() => handleCopyText(fromTextareaRef)}>
+												<Icon icon="fluent:clipboard-24-regular" />
+											</button>
+											<span className="text-[10px] font-semibold">Copy</span>
+										</div>
+										<div className="flex flex-col items-center">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={() => handlePasteText(fromTextareaRef)}>
+												<Icon icon="fluent:clipboard-paste-24-regular" />
+											</button>
+											<span className="text-[10px] font-semibold">Paste</span>
+										</div>
 										<div className="relative">
 											<button id="from_lang" className="flex items-center gap-2" type="button" onClick={handleFromDropdown}>
 												<span className="text-sm font-semibold">English</span>
@@ -229,18 +249,36 @@ function App() {
 										ref={toTextareaRef}
 										id="text-output"
 										rows="8"
+										spellCheck="false"
 										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Translation"></textarea>
 									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
-											<Icon icon="iconoir:sound-high" />
-										</button>
-										<button
-											type="button"
-											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
-											onClick={() => handleCopyText(toTextareaRef)}>
-											<Icon icon="fluent:clipboard-24-regular" />
-										</button>
+										<div className="flex flex-col items-center">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
+												<Icon icon="iconoir:sound-high" />
+											</button>
+											<span className="text-[10px] font-semibold">Speak</span>
+										</div>
+										<div className="flex flex-col items-center">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={() => handleCopyText(toTextareaRef)}>
+												<Icon icon="fluent:clipboard-24-regular" />
+											</button>
+											<span className="text-[10px] font-semibold">Copy</span>
+										</div>
+										<div className="flex flex-col items-center">
+											<button
+												type="button"
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={() => handlePasteText(toTextareaRef)}>
+												<Icon icon="fluent:clipboard-paste-24-regular" />
+											</button>
+											<span className="text-[10px] font-semibold">Paste</span>
+										</div>
 										<div className="relative">
 											<button id="to_lang" className="flex items-center gap-2" type="button" onClick={handleToDropdown}>
 												<span className="text-sm font-semibold">French</span>
