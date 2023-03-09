@@ -91,16 +91,18 @@ function App() {
 		setTimeout(() => {
 			setContainer(false);
 		}, 5000);
+
+		// set container to true then hide it after 5 seconds
 	}
 
-	function handleFromLangCopyText() {
+	function handleCopyText(side) {
 		const clippy = navigator.clipboard;
-		if (clippy && fromTextareaRef.current.value) {
-			const checkCopied = clippy.writeText(fromTextareaRef.current.value);
+		if (clippy && side.current.value) {
+			const checkCopied = clippy.writeText(side.current.value);
 			checkCopied ? setSuccess("Text copied!") : null;
 			setTimeouts();
 			setError(null);
-		} else if (clippy && fromTextareaRef.current.value === "") {
+		} else if (clippy && side.current.value === "") {
 			setTimeouts();
 			setError("Cannot copy empty text");
 			setSuccess(null);
@@ -122,14 +124,14 @@ function App() {
 						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
 					}`}>
 					<div
-						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max h-max py-3 px-3 items-center gap-2 whitespace-nowrap ${
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 items-center gap-2 whitespace-nowrap ${
 							success ? "flex" : "hidden"
 						}`}>
 						<Icon icon="fa-solid:check-circle" className="text-green-600" />
 						<small className="font-semibold text-xs">{success}</small>
 					</div>
 					<div
-						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max h-max py-3 px-3 flex items-center gap-2 whitespace-nowrap  ${
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 flex items-center gap-2 whitespace-nowrap  ${
 							error ? "flex" : "hidden"
 						}`}>
 						<Icon icon="material-symbols:cancel-rounded" className="text-red-500 scale-110" />
@@ -155,7 +157,7 @@ function App() {
 										<button
 											type="button"
 											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
-											onClick={handleFromLangCopyText}>
+											onClick={() => handleCopyText(fromTextareaRef)}>
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
@@ -233,7 +235,10 @@ function App() {
 										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
 											<Icon icon="iconoir:sound-high" />
 										</button>
-										<button type="button" className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200">
+										<button
+											type="button"
+											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
+											onClick={() => handleCopyText(toTextareaRef)}>
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
