@@ -14,7 +14,7 @@ function App() {
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
-	const [loading, setLoading] = useState(null); //loading to get result of translation
+	const [loading, setLoading] = useState(false); //loading to get result of translation
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef(); //ref of the textarea
@@ -23,8 +23,8 @@ function App() {
 	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
 
 	// custom hook
-	const fromLanguages = useHandleSearch(fromLangSearch); //for the fromDropdown input
-	const toLanguages = useHandleSearch(toLangSearch); // for the toDropdown input
+	const fromLanguagesArray = useHandleSearch(fromLangSearch); //for the fromDropdown input
+	const toLanguagesArray = useHandleSearch(toLangSearch); // for the toDropdown input
 
 	// local functions
 	async function translate() {
@@ -99,11 +99,14 @@ function App() {
 			const checkCopied = clippy.writeText(fromTextareaRef.current.value);
 			checkCopied ? setSuccess("Text copied!") : null;
 			setTimeouts();
+			setError(null);
 		} else if (clippy && fromTextareaRef.current.value === "") {
 			setTimeouts();
 			setError("Cannot copy empty text");
+			setSuccess(null);
 		} else {
 			setTimeouts();
+			setSuccess(null);
 			setError("Error copying text");
 		}
 	}
@@ -186,8 +189,8 @@ function App() {
 															</span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto flex flex-col gap-y-1">
-															{fromLanguages &&
-																fromLanguages.map((language, index) => {
+															{fromLanguagesArray &&
+																fromLanguagesArray.map((language, index) => {
 																	const { code, lang } = language;
 																	return (
 																		<button
@@ -262,8 +265,8 @@ function App() {
 															<span className="text-xs text-white font-semibold">Select language to translate to </span>
 														</div>
 														<div className="country-codes-names h-44 overflow-y-auto">
-															{toLanguages &&
-																toLanguages.map((language, index) => {
+															{toLanguagesArray &&
+																toLanguagesArray.map((language, index) => {
 																	const { code, lang } = language;
 																	return (
 																		<button
@@ -289,8 +292,14 @@ function App() {
 								</div>
 							</div>
 							<div className="submit-button text-center mt-4">
-								<button type="submit" className="py-4 bg-primary w-full rounded-lg text-white font-semibold text-sm">
-									Translate Text
+								<button
+									type="submit"
+									className="transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4">
+									<span className=" text-white font-semibold text-sm">Translate Text</span>
+									<div
+										className={`h-7 w-7 border-2 border-l-transparent rounded-full animate-spin ${
+											loading === false ? "hidden" : "inline"
+										}`}></div>
 								</button>
 							</div>
 						</form>
