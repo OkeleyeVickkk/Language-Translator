@@ -11,6 +11,7 @@ function App() {
 	const [toButtonState, setToButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [fromLangSearch, setFromLangSearch] = useState("");
 	const [toLangSearch, setToLangSearch] = useState("");
+	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
 	const [loading, setLoading] = useState(null); //loading to get result of translation
@@ -83,13 +84,27 @@ function App() {
 		setToLanguageHiddenInput(languageCode);
 	}
 
-	useEffect(() => {}, [toLanguageHiddenInput, fromLanguageHiddenInput]);
+	useEffect(() => {}, []);
 
-	function handleCopyText() {
+	function setTimeouts() {
+		setContainer(true);
+		setTimeout(() => {
+			setContainer(false);
+		}, 5000);
+	}
+
+	function handleFromLangCopyText() {
 		const clippy = navigator.clipboard;
 		if (clippy && fromTextareaRef.current.value) {
+			const checkCopied = clippy.writeText(fromTextareaRef.current.value);
+			checkCopied ? setSuccess("Text copied!") : null;
+			setTimeouts();
+		} else if (clippy && fromTextareaRef.current.value === "") {
+			setTimeouts();
+			setError("Cannot copy empty text");
 		} else {
-			console.log("False");
+			setTimeouts();
+			setError("Error copying text");
 		}
 	}
 
@@ -99,14 +114,23 @@ function App() {
 	return (
 		<div className="App">
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
-				<div className="flex flex-col top-2 right-2 z-10 fixed gap-1">
-					<div className="transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-48 h-max py-3 px-2 flex items-center gap-2">
+				<div
+					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out${
+						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
+					}`}>
+					<div
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max h-max py-3 px-3 items-center gap-2 whitespace-nowrap ${
+							success ? "flex" : "hidden"
+						}`}>
 						<Icon icon="fa-solid:check-circle" className="text-green-600" />
-						<small className="font-semibold text-sm">Text copied</small>
+						<small className="font-semibold text-xs">{success}</small>
 					</div>
-					<div className="transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-48 h-max py-3 px-2 flex items-center gap-2 ">
+					<div
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max h-max py-3 px-3 flex items-center gap-2 whitespace-nowrap  ${
+							error ? "flex" : "hidden"
+						}`}>
 						<Icon icon="material-symbols:cancel-rounded" className="text-red-500 scale-110" />
-						<small className="font-semibold text-sm">Error occured</small>
+						<small className="font-semibold text-xs">{error}</small>
 					</div>
 				</div>
 				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
@@ -128,7 +152,7 @@ function App() {
 										<button
 											type="button"
 											className="transition duration-300 ease-in-out flex rounded-full p-3 hover:bg-gray-200"
-											onClick={handleCopyText}>
+											onClick={handleFromLangCopyText}>
 											<Icon icon="fluent:clipboard-24-regular" />
 										</button>
 										<div className="relative">
