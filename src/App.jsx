@@ -26,54 +26,53 @@ function App() {
 	// local functions
 	async function translate() {
 		try {
-			const encodedParams = new URLSearchParams();
-			encodedParams.append("source_language", `${fromLanguageHiddenInput}`);
-			encodedParams.append("target_language", `${toLanguageHiddenInput}`);
-			encodedParams.append("text", `${fromTextareaRef.current.value}`);
-
-			const options = {
-				method: "POST",
-				headers: {
-					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
-					"X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
-				},
-				body: encodedParams,
-			};
-
-			fetch("https://text-translator2.p.rapidapi.com/translate", options)
-				.then((response) => response.json())
-				.then((data) => {
-					console.log(data);
-					const {
-						status,
-						data: { translatedText },
-						message,
-					} = data;
-					status === "success" ? (toTextareaRef.current.value = translatedText) : null;
-					status === "error" ? setError(message) : null;
-				});
-
 			// const encodedParams = new URLSearchParams();
-			// encodedParams.append("from", `${fromLanguageHiddenInput}`);
-			// encodedParams.append("to", `${toLanguageHiddenInput}`);
+			// encodedParams.append("source_language", `${fromLanguageHiddenInput}`);
+			// encodedParams.append("target_language", `${toLanguageHiddenInput}`);
 			// encodedParams.append("text", `${fromTextareaRef.current.value}`);
-			// const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
 
 			// const options = {
 			// 	method: "POST",
 			// 	headers: {
 			// 		"content-type": "application/x-www-form-urlencoded",
-			// 		"X-RapidAPI-Key": `${API_KEY_ONE}`,
-			// 		"X-RapidAPI-Host": "translo.p.rapidapi.com",
+			// 		"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
+			// 		"X-RapidAPI-Host": "text-translator2.p.rapidapi.com",
 			// 	},
 			// 	body: encodedParams,
 			// };
 
-			// const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
-			// const data = await response.json();
-			// const { ok, translated_text, error } = data;
-			// ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
+			// fetch("https://text-translator2.p.rapidapi.com/translate", options)
+			// 	.then((response) => response.json())
+			// 	.then((data) => {
+			// 		const {
+			// 			status,
+			// 			data: { translatedText },
+			// 			message,
+			// 		} = data;
+			// 		status === "success" ? (toTextareaRef.current.value = translatedText) : null;
+			// 		status === "error" ? setError(message) : null;
+			// 	});
+
+			const encodedParams = new URLSearchParams();
+			encodedParams.append("from", `${fromLanguageHiddenInput}`);
+			encodedParams.append("to", `${toLanguageHiddenInput}`);
+			encodedParams.append("text", `${fromTextareaRef.current.value}`);
+			const API_KEY_ONE = import.meta.env.VITE_RAPIDAPI;
+
+			const options = {
+				method: "POST",
+				headers: {
+					"content-type": "application/x-www-form-urlencoded",
+					"X-RapidAPI-Key": `6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a`,
+					"X-RapidAPI-Host": "translo.p.rapidapi.com",
+				},
+				body: encodedParams,
+			};
+
+			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
+			const data = await response.json();
+			const { ok, translated_text, error } = data;
+			ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
