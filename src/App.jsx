@@ -127,9 +127,10 @@ function App() {
 		}
 	}
 	// function that reads the text
-	function handleReadText() {
-		let utterance = new SpeechSynthesisUtterance("Hello world!");
+	function handleReadText(side) {
+		let utterance = new SpeechSynthesisUtterance(`${side.current.value}`);
 		speechSynthesis.speak(utterance);
+		// side.current.setAttribute("disabled", "on");
 	}
 
 	// function that swaps the textarea to eachother's position
@@ -175,7 +176,7 @@ function App() {
 											<button
 												type="button"
 												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
-												onClick={handleReadText}>
+												onClick={() => handleReadText(fromTextareaRef)}>
 												<Icon icon="iconoir:sound-high" />
 											</button>
 											<span className="text-[10px] font-semibold leading-none">Read</span>
