@@ -150,10 +150,10 @@ function App() {
 										id="text-input"
 										rows="8"
 										spellCheck="false"
-										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
+										className="resize-none block w-full rounded-bl-md rounded-br-md md:rounded-bl-none md:rounded-br-none md:rounded-tl-md md:rounded-tr-md transition duration-300 ease-in-out md:border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Enter text"
 										required></textarea>
-									<div className="border pt-3 pb-2 flex items-center justify-around rounded-bl-md rounded-br-md">
+									<div className="border pt-3 rounded-tl-md rounded-tr-md md:rounded-tl-none md:rounded-tr-none pb-2 flex items-center justify-around md:rounded-bl-md md:rounded-br-md">
 										<div className="flex items-center flex-col">
 											<button
 												type="button"
@@ -251,15 +251,15 @@ function App() {
 									<Icon icon="uil:exchange" />
 								</button>
 
-								<div className="to_lang flex flex-col flex-grow w-full md:w-auto">
+								<div className="to_lang flex flex-col-reverse md:flex-col flex-grow w-full md:w-auto">
 									<textarea
 										ref={toTextareaRef}
 										id="text-output"
 										rows="8"
 										spellCheck="false"
-										className="resize-none block w-full rounded-tl-md rounded-tr-md transition duration-300 ease-in-out border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
+										className="resize-none block w-full rounded-bl-md rounded-br-md md:rounded-bl-none md:rounded-br-none md:rounded-tl-md md:rounded-tr-md transition duration-300 ease-in-out md:border-b-0 text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 										placeholder="Translation"></textarea>
-									<div className="border py-3 flex items-center justify-around rounded-bl-md rounded-br-md">
+									<div className="border pt-3 rounded-tl-md rounded-tr-md md:rounded-tl-none md:rounded-tr-none pb-2 flex items-center justify-around md:rounded-bl-md md:rounded-br-md">
 										<div className="flex flex-col items-center">
 											<button
 												type="button"
