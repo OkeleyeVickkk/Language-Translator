@@ -45,11 +45,14 @@ function App() {
 			};
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
+			if (!response.ok) {
+				setError(response.status), callCurrenState();
+			}
 			const data = await response.json();
 			setLoading(false);
 			const { ok, translated_text, error } = data;
 
-			ok === true ? (toTextareaRef.current.value = translated_text) : setError(error);
+			ok === true ? (toTextareaRef.current.value = translated_text) : (setError(error), callCurrenState());
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
@@ -88,7 +91,7 @@ function App() {
 
 	useEffect(() => {}, []);
 
-	function setTimeouts() {
+	function callCurrenState() {
 		setContainer(true);
 		setTimeout(() => {
 			setContainer(false);
@@ -102,14 +105,14 @@ function App() {
 		if (clippy && side.current.value) {
 			const checkCopied = clippy.writeText(side.current.value);
 			checkCopied ? setSuccess("Text copied!") : null;
-			setTimeouts();
+			callCurrenState();
 			setError(null);
 		} else if (clippy && side.current.value === "") {
-			setTimeouts();
+			callCurrenState();
 			setError("Cannot copy empty text");
 			setSuccess(null);
 		} else {
-			setTimeouts();
+			callCurrenState();
 			setSuccess(null);
 			setError("Error copying text");
 		}
@@ -350,6 +353,7 @@ function App() {
 							</div>
 							<div className="submit-button text-center mt-8">
 								<button
+									disabled={loading ? true : false}
 									type="submit"
 									className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 ${
 										loading ? "cursor-not-allowed" : "cursor-pointer"
