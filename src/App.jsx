@@ -118,6 +118,17 @@ function App() {
 		}
 	}
 
+	function handlePasteText(side) {
+		const clippy = navigator.clipboard;
+		if (clippy) {
+			clippy.readText().then((text) => {
+				text === "" ? (setError("Cannot paste empty text"), callCurrenState()) : (side.current.value += text);
+			});
+		} else {
+			setError("Cannot paste text!");
+		}
+	}
+
 	// function that swaps the textarea to eachother's position
 	function handleSwap(e) {}
 
