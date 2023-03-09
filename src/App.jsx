@@ -89,8 +89,6 @@ function App() {
 		setToLanguageHiddenInput(languageCode);
 	}
 
-	useEffect(() => {}, []);
-
 	function callCurrenState() {
 		setContainer(true);
 		setTimeout(() => {
@@ -99,7 +97,7 @@ function App() {
 
 		// set container to true then hide it after 5 seconds
 	}
-
+	//function that copies text
 	function handleCopyText(side) {
 		const clippy = navigator.clipboard;
 		if (clippy && side.current.value) {
@@ -117,7 +115,7 @@ function App() {
 			setError("Error copying text");
 		}
 	}
-
+	// function that writes the text to the screen
 	function handlePasteText(side) {
 		const clippy = navigator.clipboard;
 		if (clippy) {
@@ -127,6 +125,11 @@ function App() {
 		} else {
 			setError("Cannot paste text!");
 		}
+	}
+	// function that reads the text
+	function handleReadText() {
+		let utterance = new SpeechSynthesisUtterance("Hello world!");
+		speechSynthesis.speak(utterance);
 	}
 
 	// function that swaps the textarea to eachother's position
@@ -171,7 +174,8 @@ function App() {
 										<div className="flex items-center flex-col">
 											<button
 												type="button"
-												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={handleReadText}>
 												<Icon icon="iconoir:sound-high" />
 											</button>
 											<span className="text-[10px] font-semibold leading-none">Read</span>
