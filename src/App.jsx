@@ -234,8 +234,8 @@ function App() {
 												<span className="text-[10px] font-semibold leading-none">Select lang</span>
 											</div>
 											<div
-												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
-													${fromLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 translate-y-2
+													${fromLangDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
@@ -341,8 +341,8 @@ function App() {
 												<span className="text-[10px] font-semibold leading-none">Select lang</span>
 											</div>
 											<div
-												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-72 p-2 right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] top-0
-																${toLangDropdown ? "opacity-100 -translate-y-9 pointer-events-auto" : "opacity-0 pointer-events-none"}
+												className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 translate-y-4
+																${toLangDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 												<div className="input-container">
 													<div className="relative">
