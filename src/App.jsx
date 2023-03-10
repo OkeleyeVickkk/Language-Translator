@@ -1,6 +1,5 @@
-import "./App.css";
 import { Icon } from "@iconify-icon/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
