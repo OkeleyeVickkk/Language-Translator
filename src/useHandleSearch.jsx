@@ -20,7 +20,7 @@ const useHandleSearch = (searchValue) => {
 	const [languages, setSearchResultArray] = useState([]);
 	useEffect(() => {
 		if (searchValue) {
-			const newValue = searchValue.toLowerCase();
+			const newValue = searchValue.trim().toLowerCase();
 			const filteredSearchArray = codesArray.filter((language) => {
 				const { code, lang } = language;
 				const newCode = code.toLowerCase();

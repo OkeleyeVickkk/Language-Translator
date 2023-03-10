@@ -26,9 +26,6 @@ function App() {
 	const fromLanguagesArray = useHandleSearch(fromLangSearch); //for the fromDropdown input
 	const toLanguagesArray = useHandleSearch(toLangSearch); // for the toDropdown input
 
-	const voices = speechSynthesis.getVoices();
-	// console.log(voices);
-
 	// local functions
 	async function translate() {
 		try {
@@ -131,19 +128,36 @@ function App() {
 			setError("Cannot paste text!");
 		}
 	}
+	const voices = speechSynthesis.getVoices(); // get all voices
+	// function that speaks
+	function Speak(sentence, langCode) {
+		const language = voices.filter((voiceItem) => {
+			return voiceItem.lang.split("-")[0] === langCode;
+		});
+		const lCode = language.forEach((language) => {
+			const { lang } = language;
+		});
+		const utterance = new SpeechSynthesisUtterance(`${sentence}`);
+		return speechSynthesis.speak(utterance);
+	}
 	// function that reads the text
 	function handleReadText(side) {
-		let utterance = new SpeechSynthesisUtterance(`${side.current.value}`);
-		speechSynthesis.speak(utterance);
-		// side.current.setAttribute("disabled", "on");
+		side.current.value === ""
+			? Speak("Sorry I cannot speak out an empty sentence, try typing something")
+			: side === fromTextareaRef
+			? Speak(`${side.current.value}`, fromLanguageHiddenInput)
+			: Speak(`${side.current.value}`, toLanguageHiddenInput);
+		// side.current.setAttribute("disabled", "off");
 	}
 
 	// function that swaps the textarea to eachother's position
-	function handleSwap(e) {}
+	function handleSwap() {
+		// const
+	}
 
 	return (
 		<div className="App">
-			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
+			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 px-3 md:px-5 overflow-hidden relative">
 				<div
 					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
 						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
@@ -163,7 +177,7 @@ function App() {
 						<small className="font-semibold text-xs">{error}</small>
 					</div>
 				</div>
-				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
+				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-1 lg:col-end-13 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 					<div className="pre-form-container ">
 						<form action="" onSubmit={runTranslation}>
 							<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
@@ -287,7 +301,8 @@ function App() {
 										<div className="flex flex-col items-center">
 											<button
 												type="button"
-												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200">
+												className="transition duration-300 ease-in-out rounded-full p-2 flex hover:bg-gray-200"
+												onClick={() => handleReadText(toTextareaRef)}>
 												<Icon icon="iconoir:sound-high" />
 											</button>
 											<span className="text-[10px] font-semibold leading-none">Speak</span>
