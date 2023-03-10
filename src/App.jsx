@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
+const voices = speechSynthesis.getVoices(); // get all voices
 
 function App() {
 	// hooks
@@ -128,16 +129,18 @@ function App() {
 			setError("Cannot paste text!");
 		}
 	}
-	const voices = speechSynthesis.getVoices(); // get all voices
 	// function that speaks
 	function Speak(sentence, langCode) {
+		let lCode;
 		const language = voices.filter((voiceItem) => {
 			return voiceItem.lang.split("-")[0] === langCode;
 		});
-		const lCode = language.forEach((language) => {
+		language.forEach((language) => {
 			const { lang } = language;
+			lCode = lang.split("-")[0];
 		});
 		const utterance = new SpeechSynthesisUtterance(`${sentence}`);
+		utterance.lang = lCode;
 		return speechSynthesis.speak(utterance);
 	}
 	// function that reads the text
