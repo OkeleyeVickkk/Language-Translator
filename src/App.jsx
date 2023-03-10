@@ -160,7 +160,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 px-3 md:px-5 overflow-hidden relative">
+			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
 				<div
 					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
 						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
@@ -180,7 +180,7 @@ function App() {
 						<small className="font-semibold text-xs">{error}</small>
 					</div>
 				</div>
-				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-1 lg:col-end-13 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
+				<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 					<div className="pre-form-container ">
 						<form action="" onSubmit={runTranslation}>
 							<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
