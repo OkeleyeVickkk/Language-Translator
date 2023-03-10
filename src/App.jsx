@@ -26,6 +26,9 @@ function App() {
 	const fromLanguagesArray = useHandleSearch(fromLangSearch); //for the fromDropdown input
 	const toLanguagesArray = useHandleSearch(toLangSearch); // for the toDropdown input
 
+	const voices = speechSynthesis.getVoices();
+	// console.log(voices);
+
 	// local functions
 	async function translate() {
 		try {
