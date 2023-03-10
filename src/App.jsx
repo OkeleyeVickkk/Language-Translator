@@ -52,7 +52,9 @@ function App() {
 			setLoading(false);
 			const { ok, translated_text, error } = data;
 
-			ok === true ? (toTextareaRef.current.value = translated_text) : (setError(error), callCurrenState());
+			ok === true
+				? (toTextareaRef.current.value = translated_text)
+				: (setError("Cannot translate sentence"), callCurrenState(), setSuccess(false));
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
@@ -140,11 +142,11 @@ function App() {
 		<div className="App">
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
 				<div
-					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out${
+					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
 						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
 					}`}>
 					<div
-						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 items-center gap-2 whitespace-nowrap ${
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 items-center gap-2 md:whitespace-nowrap ${
 							success ? "flex" : "hidden"
 						}`}>
 						<Icon icon="fa-solid:check-circle" className="text-green-600" />
