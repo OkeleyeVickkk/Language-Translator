@@ -373,13 +373,13 @@ function App() {
 								<button
 									disabled={loading ? true : false}
 									type="submit"
-									className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 ${
+									className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
 										loading ? "cursor-not-allowed" : "cursor-pointer"
 									}`}>
 									<span className=" text-white font-semibold text-sm">Translate Text</span>
 									<div
-										className={`h-7 w-7 border-2 border-l-transparent rounded-full animate-spin ${
-											loading === false ? "invisible" : "visible"
+										className={`h-6 w-6 border-2 border-l-transparent rounded-full animate-spin ${
+											loading === false ? "hidden" : "inline"
 										}`}></div>
 								</button>
 							</div>
