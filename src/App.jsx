@@ -31,7 +31,6 @@ function App() {
 
 	// local functions
 	async function translate() {
-		console.log(fromLanguageHiddenInput, toLanguageHiddenInput);
 		try {
 			const encodedParams = new URLSearchParams();
 			encodedParams.append("from", `${fromLanguageHiddenInput}`);
@@ -172,6 +171,10 @@ function App() {
 
 	return (
 		<div className="App">
+			<div className="container-title text-center mt-6">
+				<h1 className="text-white text-2xl md:text-4xl font-semibold">Language Translator 🚀</h1>
+				<small className="text-white">Translate as much as 183 languages to suit your need</small>
+			</div>
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
 				<div
 					className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
