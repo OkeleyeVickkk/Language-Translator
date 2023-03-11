@@ -28,6 +28,7 @@ function App() {
 
 	// local functions
 	async function translate() {
+		console.log(fromLanguageHiddenInput, toLanguageHiddenInput);
 		try {
 			const encodedParams = new URLSearchParams();
 			encodedParams.append("from", `${fromLanguageHiddenInput}`);
@@ -155,7 +156,13 @@ function App() {
 	// function that swaps the textarea to eachother's position
 	function handleSwap() {
 		[fromTextareaRef.current.value, toTextareaRef.current.value] = [toTextareaRef.current.value, fromTextareaRef.current.value];
-		[fromLanguageHiddenInput, toLanguageHiddenInput] = [toLanguageHiddenInput, fromLanguageHiddenInput];
+		// [fromLanguageHiddenInput, toLanguageHiddenInput] = [toLanguageHiddenInput, fromLanguageHiddenInput];
+		const langCodeA = toLanguageHiddenInput;
+		const langCodeB = fromLanguageHiddenInput;
+		setFromLanguageHiddenInput(langCodeA);
+		setToLanguageHiddenInput(langCodeB);
+
+		console.log(fromLanguageHiddenInput, toLanguageHiddenInput);
 	}
 
 	return (
