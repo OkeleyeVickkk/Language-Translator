@@ -167,7 +167,6 @@ function App() {
 		const langCodeB = fromLanguageHiddenInput;
 		setFromLanguageHiddenInput(langCodeA);
 		setToLanguageHiddenInput(langCodeB);
-		// const
 	}
 
 	return (
