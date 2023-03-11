@@ -50,7 +50,7 @@ function App() {
 
 			const response = await fetch("https://translo.p.rapidapi.com/api/v3/translate", options);
 			if (!response.ok) {
-				setError(response.status), callCurrenState();
+				setError(response.status), callCurrenState(), setSuccess(null);
 			}
 			const data = await response.json();
 			setLoading(false);
