@@ -152,7 +152,6 @@ function App() {
 			: side === fromTextareaRef
 			? Speak(`${side.current.value}`, fromLanguageHiddenInput)
 			: Speak(`${side.current.value}`, toLanguageHiddenInput);
-		// side.current.setAttribute("disabled", "off");
 	}
 
 	// function that swaps the textarea to eachother's position
@@ -167,6 +166,8 @@ function App() {
 		const langCodeB = fromLanguageHiddenInput;
 		setFromLanguageHiddenInput(langCodeA);
 		setToLanguageHiddenInput(langCodeB);
+		setToButtonState(null);
+		setFromButtonState(null);
 	}
 
 	return (
