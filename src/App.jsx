@@ -1,5 +1,5 @@
 import { Icon } from "@iconify-icon/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
@@ -25,6 +25,9 @@ function App() {
 	// custom hook
 	const fromLanguagesArray = useHandleSearch(fromLangSearch); //for the fromDropdown input
 	const toLanguagesArray = useHandleSearch(toLangSearch); // for the toDropdown input
+
+	const toLanguageTextContainer = document.querySelector("#to_lang span");
+	const fromLanguageTextContainer = document.querySelector("#from_lang span");
 
 	// local functions
 	async function translate() {
@@ -80,25 +83,24 @@ function App() {
 		setToLangDropdown((togglePrevious) => !togglePrevious);
 	}
 	function setFromLanguage(languageCode, language, index) {
-		document.querySelector("#from_lang span").textContent = language;
+		fromLanguageTextContainer.textContent = language;
 		handleFromDropdown();
 		setFromButtonState(index);
 		setFromLanguageHiddenInput(languageCode);
 	}
 	function setToLanguage(languageCode, language, index) {
-		document.querySelector("#to_lang span").textContent = language;
+		toLanguageTextContainer.textContent = language;
 		handleToDropdown();
 		setToButtonState(index);
 		setToLanguageHiddenInput(languageCode);
 	}
 
 	function callCurrenState() {
+		// set container to true then hide it after 5 seconds
 		setContainer(true);
 		setTimeout(() => {
 			setContainer(false);
 		}, 5000);
-
-		// set container to true then hide it after 5 seconds
 	}
 	//function that copies text
 	function handleCopyText(side) {
@@ -155,14 +157,17 @@ function App() {
 
 	// function that swaps the textarea to eachother's position
 	function handleSwap() {
+		// swap the values and textContent of each of them
 		[fromTextareaRef.current.value, toTextareaRef.current.value] = [toTextareaRef.current.value, fromTextareaRef.current.value];
-		// [fromLanguageHiddenInput, toLanguageHiddenInput] = [toLanguageHiddenInput, fromLanguageHiddenInput];
+		[fromLanguageTextContainer.textContent, toLanguageTextContainer.textContent] = [
+			toLanguageTextContainer.textContent,
+			fromLanguageTextContainer.textContent,
+		];
 		const langCodeA = toLanguageHiddenInput;
 		const langCodeB = fromLanguageHiddenInput;
 		setFromLanguageHiddenInput(langCodeA);
 		setToLanguageHiddenInput(langCodeB);
-
-		console.log(fromLanguageHiddenInput, toLanguageHiddenInput);
+		// const
 	}
 
 	return (
