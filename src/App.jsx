@@ -54,7 +54,7 @@ function App() {
 			}
 			const data = await response.json();
 			setLoading(false);
-			const { ok, translated_text, error } = data;
+			const { ok, translated_text } = data;
 
 			ok === true
 				? (toTextareaRef.current.value = translated_text)
