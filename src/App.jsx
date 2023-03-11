@@ -19,8 +19,8 @@ function App() {
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef(); //ref of the textarea
 	const toTextareaRef = useRef(); //ref of the textarea
-	const [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState("en"); //hidden input to
-	const [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
+	let [fromLanguageHiddenInput, setFromLanguageHiddenInput] = useState("en"); //hidden input to
+	let [toLanguageHiddenInput, setToLanguageHiddenInput] = useState("fr"); //hidden input from
 
 	// custom hook
 	const fromLanguagesArray = useHandleSearch(fromLangSearch); //for the fromDropdown input
@@ -154,7 +154,8 @@ function App() {
 
 	// function that swaps the textarea to eachother's position
 	function handleSwap() {
-		// const
+		[fromTextareaRef.current.value, toTextareaRef.current.value] = [toTextareaRef.current.value, fromTextareaRef.current.value];
+		[fromLanguageHiddenInput, toLanguageHiddenInput] = [toLanguageHiddenInput, fromLanguageHiddenInput];
 	}
 
 	return (
