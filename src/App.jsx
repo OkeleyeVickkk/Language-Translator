@@ -173,7 +173,7 @@ function App() {
 		<div className="App">
 			<div className="container-title text-center mt-6">
 				<h1 className="text-white text-2xl md:text-4xl font-semibold">Language Translator 🚀</h1>
-				<small className="text-white">Translate as much as 183 languages to suit your need</small>
+				<small className="text-white">Enjoy translating as much as 183 languages.😁💅</small>
 			</div>
 			<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
 				<div
@@ -303,7 +303,7 @@ function App() {
 								<button
 									type="button"
 									onClick={handleSwap}
-									className="shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] flex items-center h-max p-3 rotate-90 md:rotate-0 rounded-full text-2xl text-primary">
+									className="transition ease-in-out duration-300  hover:bg-primary hover:text-white md:hover:rotate-[180deg] shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] flex items-center h-max p-3 rotate-90 md:rotate-0 rounded-full text-2xl text-primary">
 									<Icon icon="uil:exchange" />
 								</button>
 
