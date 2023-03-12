@@ -2,11 +2,13 @@ import { Icon } from "@iconify-icon/react";
 import { createContext, useState } from "react";
 import Index from "./Index";
 import LanguageDetect from "./LanguageDetect";
+import Modal from "./Modal";
 
 export const ErrorSuccesContainerContext = createContext();
 
 function App() {
 	const [view, changeView] = useState(true); //default view is translation
+	const [result, setResult] = useState(true); //modal that shows state if the language detections are true
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
@@ -14,8 +16,14 @@ function App() {
 
 	return (
 		<ErrorSuccesContainerContext.Provider
-			value={{ view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
+			value={{ result, setResult, view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
 			<div className="App">
+				{result ? (
+					<div className={`transition duration-300 ease-in-out ${result ? "opacity-100" : "opacity-0"}`}>
+						<Modal />
+					</div>
+				) : null}
+
 				<div className="p-4 mb-6">
 					<button
 						className="transition duration-300 ease-in-out bg-white rounded-md p-3 text-xs leading-tight font-bold shadow-md hover:bg-primary border hover:shadow-none hover:text-white hover:bg-opacity-50 hover:border hover:border-white"
