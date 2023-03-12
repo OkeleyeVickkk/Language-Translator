@@ -5,12 +5,7 @@ import DetectLanguage from "detectlanguage";
 import { ErrorSuccesContainerContext } from "./App";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
-const API_KEY_TWO = import.meta.env.VITE_LANG_DETECT_KEY;
-
 const voices = speechSynthesis.getVoices(); // get all voices
-const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
-
-const text = "ọlọrun iyanu";
 
 function Index() {
 	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);

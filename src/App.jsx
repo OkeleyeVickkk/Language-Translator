@@ -16,7 +16,7 @@ function App() {
 		<ErrorSuccesContainerContext.Provider value={{ view, changeView, container, setContainer, error, setError, success, setSuccess }}>
 			<div className="App">
 				<div className="container-title text-center mt-6">
-					<h1 className="text-white text-2xl md:text-4xl font-semibold">{!view ? "Language Translator 🚀" : "Detect Language"}</h1>
+					<h1 className="text-white text-2xl md:text-4xl font-semibold">{view ? "Language Translator 🚀" : "Detect Language"}</h1>
 					<small className="text-white">Enjoy translating as much as 183 languages.😁💅</small>
 				</div>
 				<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
