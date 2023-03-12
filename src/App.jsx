@@ -6,7 +6,7 @@ import LanguageDetect from "./LanguageDetect";
 export const ErrorSuccesContainerContext = createContext();
 
 function App() {
-	const [view, changeView] = useState(false);
+	const [view, changeView] = useState(false); //default view is translation
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
@@ -16,7 +16,10 @@ function App() {
 		<ErrorSuccesContainerContext.Provider
 			value={{ view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
 			<div className="App">
-				<div className="container-title text-center mt-6">
+				<div className="p-4">
+					<button>{view ? "Detect language" : "Translate language"}</button>
+				</div>
+				<div className="container-title text-center">
 					<h1 className="text-white text-2xl md:text-4xl font-semibold">{view ? "Language Translator 🚀" : "Detect Language"}</h1>
 					<small className="text-white">Enjoy translating as much as 183 languages😁💅</small>
 				</div>
