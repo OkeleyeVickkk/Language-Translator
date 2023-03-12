@@ -7,14 +7,13 @@ const API_KEY_ONE = import.meta.env.VITE_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 function Index() {
-	const { view, changeView, setContainer, setError, setSuccess } = useContext(ErrorSuccesContainerContext);
+	const { view, changeView, setContainer, setError, setSuccess, loading, setLoading } = useContext(ErrorSuccesContainerContext);
 
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [toButtonState, setToButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [fromLangSearch, setFromLangSearch] = useState("");
 	const [toLangSearch, setToLangSearch] = useState("");
-	const [loading, setLoading] = useState(false); //loading to get result of translation
 	const [fromLangDropdown, setFromLangDropdown] = useState(false);
 	const [toLangDropdown, setToLangDropdown] = useState(false);
 	const fromTextareaRef = useRef(); //ref of the textarea

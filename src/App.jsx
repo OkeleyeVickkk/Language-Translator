@@ -10,9 +10,11 @@ function App() {
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
+	const [loading, setLoading] = useState(false); //loading to get result of translation
 
 	return (
-		<ErrorSuccesContainerContext.Provider value={{ view, changeView, container, setContainer, error, setError, success, setSuccess }}>
+		<ErrorSuccesContainerContext.Provider
+			value={{ view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
 			<div className="App">
 				<div className="container-title text-center mt-6">
 					<h1 className="text-white text-2xl md:text-4xl font-semibold">{view ? "Language Translator 🚀" : "Detect Language"}</h1>
