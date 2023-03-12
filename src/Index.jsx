@@ -168,8 +168,8 @@ function Index() {
 
 	return (
 		<Fragment>
-			<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
-				<div className="pre-form-container ">
+			<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 mx-auto md:mt-6 mt-4 h-max">
+				<div className="pre-form-container bg-white p-4 md:p-8 mb-8 md:mb-28 rounded-md">
 					<form action="" onSubmit={runTranslation}>
 						<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
 							<div className="from_lang flex flex-col-reverse md:flex-col flex-grow w-full md:w-auto">
@@ -382,7 +382,7 @@ function Index() {
 								type="submit"
 								className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
 									loading ? "cursor-not-allowed" : "cursor-pointer"
-								}`}>
+								} hover:bg-opacity-95`}>
 								<span className=" text-white font-semibold text-sm">Translate Text</span>
 								<div
 									className={`h-6 w-6 border-2 border-l-transparent rounded-full animate-spin ${

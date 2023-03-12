@@ -18,7 +18,7 @@ const LanguageDetect = () => {
 	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);
 
 	return (
-		<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
+		<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-0 mt-4 h-max">
 			<form action="" onSubmit={runDetection}>
 				<div>
 					<textarea
@@ -68,7 +68,7 @@ const LanguageDetect = () => {
 						type="submit"
 						className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
 							loading ? "cursor-not-allowed" : "cursor-pointer"
-						}`}>
+						} hover:bg-opacity-95`}>
 						<span className=" text-white font-semibold text-sm">Detect Language</span>
 						<div
 							className={`h-6 w-6 border-2 border-l-transparent rounded-full animate-spin ${
