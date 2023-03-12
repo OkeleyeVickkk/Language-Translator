@@ -41,6 +41,7 @@ function App() {
 						</div>
 					</div>
 				</div>
+				{view ? <Index /> : <LanguageDetect />}
 			</div>
 		</ErrorSuccesContainerContext.Provider>
 	);
