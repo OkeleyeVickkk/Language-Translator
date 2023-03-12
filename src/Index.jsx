@@ -168,7 +168,7 @@ function Index() {
 
 	return (
 		<div className="translator-container container col-span-full md:col-start-1 md:col-end-13 lg:col-start-2 lg:col-end-12 bg-white rounded-md mx-auto mt-4 h-max">
-			<div className="pre-form-container bg-white p-8 rounded-md">
+			<div className="pre-form-container bg-white p-4 md:p-8 rounded-md">
 				<form action="" onSubmit={runTranslation}>
 					<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
 						<div className="from_lang flex flex-col-reverse md:flex-col flex-grow w-full md:w-auto">
