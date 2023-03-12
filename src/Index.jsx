@@ -167,7 +167,7 @@ function Index() {
 	}
 
 	return (
-		<div className="translator-container container col-span-full md:col-start-1 md:col-end-13 lg:col-start-2 lg:col-end-12 bg-white rounded-md mx-auto mt-4 h-max">
+		<div className="translator-container container col-span-full md:col-start-1 md:col-end-13 lg:col-start-2 lg:col-end-12 bg-white rounded-md mx-auto my-6 h-max">
 			<div className="pre-form-container bg-white p-4 md:p-8 rounded-md">
 				<form action="" onSubmit={runTranslation}>
 					<div className="form-inner flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 flex-wrap">
@@ -221,7 +221,7 @@ function Index() {
 										<span className="text-[10px] font-semibold leading-none">Select lang</span>
 									</div>
 									<div
-										className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 translate-y-2
+										className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 -translate-y-3
 													${fromLangDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
 												`}>
 										<div className="input-container">
