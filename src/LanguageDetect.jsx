@@ -8,6 +8,10 @@ const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
 
 const text = "ọlọrun iyanu";
 
+// languageDetector.detect(text).then((respons) => {
+// 	console.log(respons);
+// });
+
 const LanguageDetect = () => {
 	const [loading, setLoading] = useState(false);
 

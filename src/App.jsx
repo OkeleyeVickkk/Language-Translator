@@ -20,7 +20,7 @@ function App() {
 					<h1 className="text-white text-2xl md:text-4xl font-semibold">{view ? "Language Translator 🚀" : "Detect Language"}</h1>
 					<small className="text-white">Enjoy translating as much as 183 languages😁💅</small>
 				</div>
-				<div className="min-h-screen py-8 grid grid-cols-1 md:grid-cols-8 lg:grid-cols-10 px-3 md:px-5 overflow-hidden relative">
+				<div className="relative">
 					<div
 						className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
 							container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
@@ -40,7 +40,6 @@ function App() {
 							<small className="font-semibold text-xs">{error}</small>
 						</div>
 					</div>
-					{view ? <Index /> : <LanguageDetect />}
 				</div>
 			</div>
 		</ErrorSuccesContainerContext.Provider>
