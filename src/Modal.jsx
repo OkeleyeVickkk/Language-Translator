@@ -3,10 +3,13 @@ import { useContext } from "react";
 import { ErrorSuccesContainerContext } from "./App";
 
 const Modal = () => {
-	const { setResult } = useContext(ErrorSuccesContainerContext);
+	const { result, setResult } = useContext(ErrorSuccesContainerContext);
 
 	return (
-		<div className={"fixed w-full h-full flex items-center z-10 justify-center glassmorphism transition duration-300"}>
+		<div
+			className={`fixed w-full h-full flex items-center z-10 justify-center glassmorphism transition duration-300  ${
+				result ? "translate-y-0 opacity-100 visible" : "opacity-0 invisible translate-y-4"
+			}`}>
 			<div className="w-full mx-2 md:grid md:grid-cols-5">
 				<div className="bg-white rounded-lg col-start-1 md:col-start-2 col-span-full md:col-end-5">
 					<div className="modal-header flex items-center justify-between p-3 border-b">

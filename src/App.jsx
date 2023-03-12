@@ -19,7 +19,7 @@ function App() {
 			value={{ result, setResult, view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
 			<div className="App">
 				{result ? (
-					<div className={`transition duration-300 ease-in-out ${result ? "opacity-100" : "opacity-0"}`}>
+					<div className={`transition duration-300 ease-in-out  ${result ? "opacity-100 visible" : "opacity-0 invisible"}`}>
 						<Modal />
 					</div>
 				) : null}
@@ -27,7 +27,11 @@ function App() {
 				<div className="p-4 mb-6">
 					<button
 						className="transition duration-300 ease-in-out bg-white rounded-md p-3 text-xs leading-tight font-bold shadow-md hover:bg-primary border hover:shadow-none hover:text-white hover:bg-opacity-50 hover:border hover:border-white"
-						onClick={() => changeView((prev) => !prev)}>
+						onClick={() =>
+							changeView((prev) => {
+								return !prev, setResult(true);
+							})
+						}>
 						{view ? "Detect language" : "Translate language"}
 					</button>
 				</div>

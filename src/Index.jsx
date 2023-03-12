@@ -99,8 +99,8 @@ function Index() {
 			setContainer(false);
 		}, 5000);
 	}
-	//function that copies text
 	function handleCopyText(side) {
+		//function that copies text
 		const clippy = navigator.clipboard;
 		if (clippy && side.current.value) {
 			const checkCopied = clippy.writeText(side.current.value);
@@ -117,8 +117,8 @@ function Index() {
 			setError("Error copying text");
 		}
 	}
-	// function that writes the text to the screen
 	function handlePasteText(side) {
+		// function that writes the text to the screen
 		const clippy = navigator.clipboard;
 		if (clippy) {
 			clippy.readText().then((text) => {
@@ -128,8 +128,8 @@ function Index() {
 			setError("Cannot paste text!");
 		}
 	}
-	// function that speaks
 	function Speak(sentence, langCode) {
+		// function that speaks
 		let lCode;
 		const language = voices.filter((voiceItem) => {
 			return voiceItem.lang.split("-")[0] === langCode;
@@ -142,8 +142,8 @@ function Index() {
 		utterance.lang = lCode;
 		return speechSynthesis.speak(utterance);
 	}
-	// function that reads the text
 	function handleReadText(side) {
+		// function that reads the text
 		side.current.value === ""
 			? Speak("Sorry I cannot speak out an empty sentence, try typing something")
 			: side === fromTextareaRef
