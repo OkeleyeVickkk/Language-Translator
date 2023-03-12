@@ -23,7 +23,7 @@ const LanguageDetect = () => {
 
 	return (
 		<div className="grid grid-cols-8">
-			<div className="col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-8">
+			<div className="col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-8 px-3">
 				<div className="translator-container container bg-white p-4 md:p-8 rounded-md mx-auto md:mt-12 h-max">
 					<form action="" onSubmit={runDetection}>
 						<div>
