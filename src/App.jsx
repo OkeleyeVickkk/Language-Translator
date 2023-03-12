@@ -1,6 +1,5 @@
 import { Icon } from "@iconify-icon/react";
-import { createContext, useContext, useRef, useState } from "react";
-import DetectLanguage from "detectlanguage";
+import { createContext, useState } from "react";
 import Index from "./Index";
 import LanguageDetect from "./LanguageDetect";
 

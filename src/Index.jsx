@@ -1,14 +1,13 @@
 import { Icon } from "@iconify-icon/react";
 import { Fragment, useContext, useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
-import DetectLanguage from "detectlanguage";
 import { ErrorSuccesContainerContext } from "./App";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 function Index() {
-	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);
+	const { view, changeView, setContainer, setError, setSuccess } = useContext(ErrorSuccesContainerContext);
 
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
@@ -170,25 +169,6 @@ function Index() {
 
 	return (
 		<Fragment>
-			<div
-				className={`flex flex-col top-2 right-2 z-10 fixed gap-1 transition duration-300 ease-in-out w-max${
-					container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
-				}`}>
-				<div
-					className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 items-center gap-2 md:whitespace-nowrap ${
-						success ? "flex" : "hidden"
-					}`}>
-					<Icon icon="fa-solid:check-circle" className="text-green-600" />
-					<small className="font-semibold text-xs">{success}</small>
-				</div>
-				<div
-					className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 flex items-center gap-2 whitespace-nowrap  ${
-						error ? "flex" : "hidden"
-					}`}>
-					<Icon icon="material-symbols:cancel-rounded" className="text-red-500 scale-110" />
-					<small className="font-semibold text-xs">{error}</small>
-				</div>
-			</div>
 			<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-6 mt-4 h-max">
 				<div className="pre-form-container ">
 					<form action="" onSubmit={runTranslation}>
