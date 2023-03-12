@@ -48,7 +48,7 @@ function App() {
 						</div>
 					</div>
 				</div>
-				{view ? <Index /> : <LanguageDetect />}
+				<div className="grid grid-cols-12 px-3">{view ? <Index /> : <LanguageDetect />}</div>
 			</div>
 		</ErrorSuccesContainerContext.Provider>
 	);

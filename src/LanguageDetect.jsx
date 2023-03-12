@@ -18,7 +18,7 @@ const LanguageDetect = () => {
 	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);
 
 	return (
-		<div className="translator-container container col-span-full md:col-start-1 md:col-end-12 lg:col-start-2 lg:col-end-10 bg-white p-4 md:p-8 rounded-md mx-auto md:mt-0 mt-4 h-max">
+		<div className="translator-container container col-span-full md:col-start-2 md:col-end-12 lg:col-end-12 bg-white p-4 md:p-8 rounded-md mx-auto mt-4 h-max">
 			<form action="" onSubmit={runDetection}>
 				<div>
 					<textarea
