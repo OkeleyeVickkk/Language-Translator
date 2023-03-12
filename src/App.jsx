@@ -6,7 +6,7 @@ import LanguageDetect from "./LanguageDetect";
 export const ErrorSuccesContainerContext = createContext();
 
 function App() {
-	const [view, changeView] = useState(false); //default view is translation
+	const [view, changeView] = useState(true); //default view is translation
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
@@ -16,7 +16,7 @@ function App() {
 		<ErrorSuccesContainerContext.Provider
 			value={{ view, changeView, container, setContainer, error, setError, success, setSuccess, loading, setLoading }}>
 			<div className="App">
-				<div className="p-4">
+				<div className="p-4 mb-6">
 					<button
 						className="transition duration-300 ease-in-out bg-white rounded-md p-3 text-xs leading-tight font-bold shadow-md hover:bg-primary border hover:shadow-none hover:text-white hover:bg-opacity-50 hover:border hover:border-white"
 						onClick={() => changeView((prev) => !prev)}>
