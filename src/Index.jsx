@@ -5,7 +5,6 @@ import useHandleSearch from "./useHandleSearch";
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
-// function Index({ containerProps, errorProps, successProps, loadingProps }) {
 function Index({ allProps }) {
 	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
 
@@ -38,9 +37,10 @@ function Index({ allProps }) {
 
 			const options = {
 				method: "POST",
+				// url: "https://translo.p.rapidapi.com/api/v3/translate",
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": `${API_KEY_ONE}`,
+					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
 					"X-RapidAPI-Host": "translo.p.rapidapi.com",
 				},
 				body: encodedParams,
@@ -51,12 +51,13 @@ function Index({ allProps }) {
 				setError(response.status), callCurrenState(), setSuccess(null);
 			}
 			const data = await response.json();
+			console.log(data);
 			setLoading(false);
 			const { ok, translated_text } = data;
 
 			ok === true
-				? (toTextareaRef.current.value = translated_text)
-				: (setError("Cannot translate sentence"), callCurrenState(), setSuccess(false));
+				? (setError("I cannot translate your text currently, please report error to my creator"), callCurrenState(), setSuccess(false))
+				: (toTextareaRef.current.value = translated_text);
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}

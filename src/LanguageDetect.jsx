@@ -1,11 +1,10 @@
 import { Icon } from "@iconify-icon/react";
-import { useReducer, useRef, useState } from "react";
+import { useRef } from "react";
 import DetectLanguage from "detectlanguage";
 
 const API_KEY_TWO = import.meta.env.VITE_LANG_DETECT_KEY;
 const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
-
-const text = "ọlọrun iyanu";
+const voices = speechSynthesis.getVoices(); // get all voices
 
 const LanguageDetect = ({ allProps }) => {
 	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
@@ -18,6 +17,29 @@ const LanguageDetect = ({ allProps }) => {
 		setTimeout(() => {
 			setContainer(false);
 		}, 5000);
+	}
+
+	function Speak(sentence, langCode) {
+		// function that speaks
+		let lCode;
+		const language = voices.filter((voiceItem) => {
+			return voiceItem.lang.split("-")[0] === langCode;
+		});
+		language.forEach((language) => {
+			const { lang } = language;
+			lCode = lang.split("-")[0];
+		});
+		const utterance = new SpeechSynthesisUtterance(`${sentence}`);
+		utterance.lang = lCode;
+		return speechSynthesis.speak(utterance);
+	}
+	function handleReadText(side) {
+		// function that reads the text
+		side.current.value === ""
+			? Speak("Sorry I cannot speak out an empty sentence, try typing something")
+			: side === textAreaRef
+			? Speak(`${side.current.value}`)
+			: null;
 	}
 
 	function handleCutText() {
@@ -39,6 +61,12 @@ const LanguageDetect = ({ allProps }) => {
 	function runDetection(e) {
 		e.preventDefault();
 		setLoading(true);
+		if (textAreaRef.current.value) {
+			const languageText = textAreaRef.current.value;
+			languageDetector.detect(languageText).then(function (result) {
+				console.log(JSON.stringify(result));
+			});
+		}
 	}
 	return (
 		<div className="translator-container container col-span-full md:col-start-2 md:col-end-12 lg:col-end-12 bg-white p-4 md:p-8 rounded-md mx-auto mt-4 h-max">
@@ -56,7 +84,8 @@ const LanguageDetect = ({ allProps }) => {
 					<div className="flex flex-col items-center">
 						<button
 							type="button"
-							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto">
+							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto"
+							onClick={() => handleReadText(textAreaRef)}>
 							<Icon className="flex" icon="ph:speaker-high-light" />
 						</button>
 						<span className="leading-none text-xs font-semibold">Read</span>

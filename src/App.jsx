@@ -1,4 +1,5 @@
 import { Icon } from "@iconify-icon/react";
+import isOnline from "is-online";
 import { useState } from "react";
 import Index from "./Index";
 import LanguageDetect from "./LanguageDetect";
