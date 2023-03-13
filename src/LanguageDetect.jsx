@@ -21,7 +21,6 @@ const LanguageDetect = ({ allProps }) => {
 			setContainer(false);
 		}, 5000);
 	}
-
 	function Speak(sentence, langCode) {
 		// function that speaks
 		let lCode;
