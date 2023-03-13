@@ -1,5 +1,5 @@
 import { Icon } from "@iconify-icon/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ISO6391 from "iso-639-1";
 
 const allLanguageCodes = ISO6391.getAllCodes();
@@ -12,6 +12,7 @@ const LanguageDetect = ({ allProps }) => {
 	const { setContainer, setError, setSuccess, loading, setLoading, setResult, lang, setDetectedLanguage } = allProps;
 
 	const textAreaRef = useRef();
+	const [langCode, setLangCode] = useState();
 
 	function callCurrenState() {
 		// set container to show error or succes state after 5 seconds
@@ -40,7 +41,7 @@ const LanguageDetect = ({ allProps }) => {
 		side.current.value === ""
 			? Speak("Sorry I cannot speak out an empty sentence, try typing something")
 			: side === textAreaRef
-			? Speak(`${side.current.value}`)
+			? Speak(`${side.current.value}`, langCode)
 			: null;
 	}
 	function handlePasteText() {
@@ -88,7 +89,6 @@ const LanguageDetect = ({ allProps }) => {
 			setError("Error copying text");
 		}
 	}
-
 	function getLanguage(gottenLangCode) {
 		// function that gets the language full name
 		const codeContainer = {};
@@ -118,7 +118,7 @@ const LanguageDetect = ({ allProps }) => {
 				const { ok, lang } = language;
 				const languageName = getLanguage(lang);
 				ok === true
-					? (setLoading(false), setResult(true), setDetectedLanguage(languageName))
+					? (setLoading(false), setResult(true), setDetectedLanguage(languageName), setLangCode(lang))
 					: (setError("Sorry can't detect language"), setResult(false));
 			} catch (error) {
 				console.log(error);
@@ -144,11 +144,17 @@ const LanguageDetect = ({ allProps }) => {
 					<div className="flex flex-col items-center">
 						<button
 							type="button"
-							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto"
+							className={`p-2 rounded-full transition duration-300 ease-in-out bg-transparent w-max mx-auto ${
+								lang ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed"
+							}`}
+							disabled={lang ? false : true}
 							onClick={() => handleReadText(textAreaRef)}>
-							<Icon className="flex" icon="ph:speaker-high-light" />
+							<Icon
+								className={`flex ${lang ? "text-black" : "text-gray-500"}`}
+								icon={`${lang ? "ph:speaker-high-light" : "ph:speaker-slash-light"}`}
+							/>
 						</button>
-						<span className="leading-none text-xs font-semibold">Read</span>
+						<span className={`leading-none text-xs font-semibold flex ${lang ? "text-black" : "text-gray-500"}`}>Read</span>
 					</div>
 					<div className="flex flex-col items-center">
 						<button

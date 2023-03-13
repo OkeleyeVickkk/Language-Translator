@@ -12,7 +12,7 @@ function App() {
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
 	const [loading, setLoading] = useState(false); //loading to get result of translation
-	const [lang, setDetectedLanguage] = useState("");
+	const [lang, setDetectedLanguage] = useState(""); //language that the modal displays
 
 	return (
 		<div className="App">
@@ -27,7 +27,7 @@ function App() {
 			</div>
 			<div className="container-title text-center">
 				<h1 className="text-white text-2xl md:text-4xl font-semibold">{view ? "Language Translator 🚀" : "Detect Language"}</h1>
-				<small className="text-white">Enjoy translating as much as 183 languages😁💅</small>
+				<small className="text-white">{view ? "Enjoy translating as much as 183 languages😁💅" : ""}</small>
 			</div>
 			<div className="relative">
 				<div
