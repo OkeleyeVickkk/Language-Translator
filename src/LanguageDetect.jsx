@@ -9,7 +9,7 @@ const RAPID_KEY = import.meta.env.VITE_RAPID_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 const LanguageDetect = ({ allProps }) => {
-	const { setContainer, setError, loading, setLoading, setResult, lang, setDetectedLanguage } = allProps;
+	const { setContainer, setError, setSuccess, loading, setLoading, setResult, lang, setDetectedLanguage } = allProps;
 
 	const textAreaRef = useRef();
 
@@ -43,19 +43,48 @@ const LanguageDetect = ({ allProps }) => {
 			? Speak(`${side.current.value}`)
 			: null;
 	}
-
+	function handlePasteText() {
+		// function that writes the text to the screen
+		const clippy = navigator.clipboard;
+		if (clippy) {
+			clippy.readText().then((text) => {
+				text === "" ? (setError("Cannot paste empty text"), callCurrenState()) : (textAreaRef.current.value += text);
+			});
+		} else {
+			setError("Cannot paste text!");
+		}
+	}
 	function handleCutText() {
 		const clippy = navigator.clipboard;
 		if (!textAreaRef.current.value) {
 			setContainer(true);
 			callCurrenState();
 			setError("Cannot copy empty space");
+			setSuccess(false);
 		} else if (clippy && textAreaRef.current.value) {
 			clippy.writeText(textAreaRef.current.value);
 			textAreaRef.current.value = "";
 		} else {
 			setContainer(true);
 			callCurrenState();
+			setError("Error copying text");
+		}
+	}
+	function handleCopyText() {
+		//function that copies text
+		const clippy = navigator.clipboard;
+		if (clippy && textAreaRef.current.value) {
+			const checkCopied = clippy.writeText(textAreaRef.current.value);
+			checkCopied ? setSuccess("Text copied!") : null;
+			callCurrenState();
+			setError(null);
+		} else if (clippy && textAreaRef.current.value === "") {
+			callCurrenState();
+			setError("Cannot copy empty text");
+			setSuccess(null);
+		} else {
+			callCurrenState();
+			setSuccess(null);
 			setError("Error copying text");
 		}
 	}
@@ -71,7 +100,6 @@ const LanguageDetect = ({ allProps }) => {
 		});
 		return languageName ? languageName : "Language cannot be detected";
 	}
-
 	async function runDetection(e) {
 		e.preventDefault();
 		if (textAreaRef.current.value) {
@@ -134,18 +162,20 @@ const LanguageDetect = ({ allProps }) => {
 					<div className="flex flex-col items-center">
 						<button
 							type="button"
-							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto">
+							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto"
+							onClick={handlePasteText}>
 							<Icon className="flex" icon="fluent:clipboard-paste-24-regular" />
 						</button>
-						<span className="leading-none text-xs font-semibold">Read</span>
+						<span className="leading-none text-xs font-semibold">Paste</span>
 					</div>
 					<div className="flex flex-col items-center">
 						<button
 							type="button"
-							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto">
+							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto"
+							onClick={handleCopyText}>
 							<Icon className="flex" icon="fluent:clipboard-24-regular" />
 						</button>
-						<span className="leading-none text-xs font-semibold">Read</span>
+						<span className="leading-none text-xs font-semibold">Copy</span>
 					</div>
 				</div>
 				<div className="submit-button text-center">

@@ -6,7 +6,7 @@ const API_KEY_ONE = import.meta.env.VITE_RAPID_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 function Index({ allProps }) {
-	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
+	const { setContainer, setError, setSuccess, loading, setLoading } = allProps;
 
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
