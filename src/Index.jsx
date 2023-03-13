@@ -5,7 +5,10 @@ import useHandleSearch from "./useHandleSearch";
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
-function Index({ setContainer, setError, setSuccess, loading, setLoading }) {
+// function Index({ containerProps, errorProps, successProps, loadingProps }) {
+function Index({ allProps }) {
+	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
+
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [toButtonState, setToButtonState] = useState(); //dropdown button that toggles state when clicked

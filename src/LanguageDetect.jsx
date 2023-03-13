@@ -7,12 +7,15 @@ const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
 
 const text = "ọlọrun iyanu";
 
-const LanguageDetect = ({ functionProps, stateProps }) => {
-	const { loading } = stateProps;
+const LanguageDetect = ({ loadingProps }) => {
+	const [loading, setLoading] = loadingProps;
 
 	const textAreaRef = useRef();
 
-	function runDetection() {}
+	function runDetection(e) {
+		e.preventDefault();
+		setLoading(true);
+	}
 	return (
 		<div className="translator-container container col-span-full md:col-start-2 md:col-end-12 lg:col-end-12 bg-white p-4 md:p-8 rounded-md mx-auto mt-4 h-max">
 			<form action="" onSubmit={runDetection}>
@@ -61,17 +64,16 @@ const LanguageDetect = ({ functionProps, stateProps }) => {
 				</div>
 				<div className="submit-button text-center">
 					<button
-						// disabled={loading === false ? true : false}
+						disabled={loading === true ? true : false}
 						type="submit"
 						className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
-							"love"
-							// loading ? "cursor-not-allowed" : "cursor-pointer"
+							loading ? "cursor-not-allowed" : "cursor-pointer"
 						} hover:bg-opacity-95`}>
 						<span className=" text-white font-semibold text-sm">Detect Language</span>
-						{/* <div
+						<div
 							className={`h-6 w-6 border-2 border-l-transparent rounded-full animate-spin ${
 								loading === false ? "hidden" : "inline"
-							}`}></div> */}
+							}`}></div>
 					</button>
 				</div>
 			</form>
