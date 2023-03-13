@@ -1,5 +1,5 @@
 import { Icon } from "@iconify-icon/react";
-import { useContext, useState } from "react";
+import { useContext, useReducer, useRef, useState } from "react";
 import { ErrorSuccesContainerContext } from "./App";
 import DetectLanguage from "detectlanguage";
 
@@ -9,14 +9,22 @@ const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
 const text = "ọlọrun iyanu";
 
 const LanguageDetect = () => {
-	const [loading, setLoading] = useState(false);
-
-	function runDetection(e) {
-		e.preventDefault();
-	}
-
 	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);
 
+	const textAreaRef = useRef();
+	const [loading, setLoading] = useState(false);
+
+	function callCurrenState() {
+		// set container to true then hide it after 5 seconds
+		setContainer(true);
+		setTimeout(() => {
+			setContainer(false);
+		}, 5000);
+	}
+
+	callCurrenState();
+
+	function runDetection() {}
 	return (
 		<div className="translator-container container col-span-full md:col-start-2 md:col-end-12 lg:col-end-12 bg-white p-4 md:p-8 rounded-md mx-auto mt-4 h-max">
 			<form action="" onSubmit={runDetection}>
@@ -24,6 +32,7 @@ const LanguageDetect = () => {
 					<textarea
 						id="text-input"
 						rows="8"
+						ref={textAreaRef}
 						spellCheck="false"
 						className="resize-none block w-full rounded-md transition duration-300 ease-in-out text-sm text-gray-800 bg-white border focus:border-primary focus:shadow-none focus:outline-0 px-3 py-2"
 						placeholder="Enter language text"></textarea>
@@ -64,7 +73,7 @@ const LanguageDetect = () => {
 				</div>
 				<div className="submit-button text-center">
 					<button
-						disabled={loading ? true : false}
+						disabled={loading === false ? true : false}
 						type="submit"
 						className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
 							loading ? "cursor-not-allowed" : "cursor-pointer"

@@ -8,7 +8,7 @@ export const ErrorSuccesContainerContext = createContext();
 
 function App() {
 	const [view, changeView] = useState(true); //default view is translation
-	const [result, setResult] = useState(true); //modal that shows state if the language detections are true
+	const [result, setResult] = useState(false); //modal that shows state if the language detections are true
 	const [container, setContainer] = useState(false);
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
@@ -56,7 +56,7 @@ function App() {
 						</div>
 					</div>
 				</div>
-				<div className="grid grid-cols-12 px-3">{view ? <Index /> : <LanguageDetect />}</div>
+				<div className="grid grid-cols-12 px-3">{!view ? <Index /> : <LanguageDetect />}</div>
 			</div>
 		</ErrorSuccesContainerContext.Provider>
 	);
