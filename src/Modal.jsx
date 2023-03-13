@@ -3,7 +3,7 @@ import { Icon } from "@iconify-icon/react";
 const Modal = ({ props }) => {
 	const [result, setResult] = props;
 	return (
-		<div className={`transition duration-300 ease-in-out ${result ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+		<div className={`transition duration-300 ease-in-out ${result ? "opacity-100 visible bg-primary" : "opacity-0 invisible"}`}>
 			<div
 				className={`fixed w-full h-full flex items-center z-10 justify-center glassmorphism transition duration-300  ${
 					result ? "translate-y-0 opacity-100 visible" : "opacity-0 invisible translate-y-4"
