@@ -1,6 +1,5 @@
 import { Icon } from "@iconify-icon/react";
-import { useContext, useReducer, useRef, useState } from "react";
-import { ErrorSuccesContainerContext } from "./App";
+import { useReducer, useRef, useState } from "react";
 import DetectLanguage from "detectlanguage";
 
 const API_KEY_TWO = import.meta.env.VITE_LANG_DETECT_KEY;
@@ -8,21 +7,10 @@ const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
 
 const text = "ọlọrun iyanu";
 
-const LanguageDetect = () => {
-	const { view, changeView, container, setContainer, error, setError, success, setSuccess } = useContext(ErrorSuccesContainerContext);
+const LanguageDetect = ({ functionProps, stateProps }) => {
+	const { loading } = stateProps;
 
 	const textAreaRef = useRef();
-	const [loading, setLoading] = useState(false);
-
-	function callCurrenState() {
-		// set container to true then hide it after 5 seconds
-		setContainer(true);
-		setTimeout(() => {
-			setContainer(false);
-		}, 5000);
-	}
-
-	callCurrenState();
 
 	function runDetection() {}
 	return (
@@ -73,16 +61,17 @@ const LanguageDetect = () => {
 				</div>
 				<div className="submit-button text-center">
 					<button
-						disabled={loading === false ? true : false}
+						// disabled={loading === false ? true : false}
 						type="submit"
 						className={`transition ease-in-out duration-300 py-3 justify-center bg-primary w-full rounded-lg flex items-center gap-4 min-h-[3rem] ${
-							loading ? "cursor-not-allowed" : "cursor-pointer"
+							"love"
+							// loading ? "cursor-not-allowed" : "cursor-pointer"
 						} hover:bg-opacity-95`}>
 						<span className=" text-white font-semibold text-sm">Detect Language</span>
-						<div
+						{/* <div
 							className={`h-6 w-6 border-2 border-l-transparent rounded-full animate-spin ${
 								loading === false ? "hidden" : "inline"
-							}`}></div>
+							}`}></div> */}
 					</button>
 				</div>
 			</form>

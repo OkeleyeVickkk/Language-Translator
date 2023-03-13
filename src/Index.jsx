@@ -1,14 +1,11 @@
 import { Icon } from "@iconify-icon/react";
-import { Fragment, useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
-import { ErrorSuccesContainerContext } from "./App";
 
 const API_KEY_ONE = import.meta.env.VITE_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
-function Index() {
-	const { view, changeView, setContainer, setError, setSuccess, loading, setLoading } = useContext(ErrorSuccesContainerContext);
-
+function Index({ setContainer, setError, setSuccess, loading, setLoading }) {
 	// hooks
 	const [fromButtonState, setFromButtonState] = useState(); //dropdown button that toggles state when clicked
 	const [toButtonState, setToButtonState] = useState(); //dropdown button that toggles state when clicked
