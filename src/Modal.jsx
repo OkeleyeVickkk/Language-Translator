@@ -2,7 +2,7 @@ import { Icon } from "@iconify-icon/react";
 
 const Modal = ({ props, language }) => {
 	const [result, setResult] = props;
-	const [lang, setDetectedLanguage] = language;
+	const [lang] = language;
 	return (
 		<div className={`transition duration-300 ease-in-out ${result ? "opacity-100 visible" : "opacity-0 invisible"}`}>
 			<div

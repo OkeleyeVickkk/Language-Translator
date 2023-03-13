@@ -1,5 +1,9 @@
 import { Icon } from "@iconify-icon/react";
 import { useRef } from "react";
+import ISO6391 from "iso-639-1";
+
+const allLanguageCodes = ISO6391.getAllCodes();
+const allLanguages = ISO6391.getAllNames();
 
 const RAPID_KEY = import.meta.env.VITE_RAPID_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
@@ -10,7 +14,7 @@ const LanguageDetect = ({ allProps }) => {
 	const textAreaRef = useRef();
 
 	function callCurrenState() {
-		// set container to truconst idei await after 5 seconds
+		// set container to show error or succes state after 5 seconds
 		setContainer(true);
 		setTimeout(() => {
 			setContainer(false);
@@ -56,6 +60,18 @@ const LanguageDetect = ({ allProps }) => {
 		}
 	}
 
+	function getLanguage(gottenLangCode) {
+		// function that gets the language full name
+		const codeContainer = {};
+		allLanguageCodes.filter((eachCode, index) => {
+			return gottenLangCode === eachCode ? ((codeContainer["code"] = eachCode), (codeContainer["index"] = index)) : null;
+		});
+		const languageName = allLanguages.filter((lang, index) => {
+			return index === codeContainer.index ? lang : null;
+		});
+		return languageName ? languageName : "Language cannot be detected";
+	}
+
 	async function runDetection(e) {
 		e.preventDefault();
 		if (textAreaRef.current.value) {
@@ -72,7 +88,10 @@ const LanguageDetect = ({ allProps }) => {
 				const response = await fetch(`https://translo.p.rapidapi.com/api/v3/detect?text=${languageText}`, options);
 				const language = await response.json();
 				const { ok, lang } = language;
-				ok === true ? (setLoading(false), setResult(true), setDetectedLanguage(lang)) : null;
+				const languageName = getLanguage(lang);
+				ok === true
+					? (setLoading(false), setResult(true), setDetectedLanguage(languageName))
+					: (setError("Sorry can't detect language"), setResult(false));
 			} catch (error) {
 				console.log(error);
 			}
