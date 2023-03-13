@@ -2,7 +2,7 @@ import { Icon } from "@iconify-icon/react";
 import { useRef, useState } from "react";
 import useHandleSearch from "./useHandleSearch";
 
-const API_KEY_ONE = import.meta.env.VITE_API_KEY;
+const API_KEY_ONE = import.meta.env.VITE_RAPID_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 function Index({ allProps }) {
@@ -37,10 +37,9 @@ function Index({ allProps }) {
 
 			const options = {
 				method: "POST",
-				// url: "https://translo.p.rapidapi.com/api/v3/translate",
 				headers: {
 					"content-type": "application/x-www-form-urlencoded",
-					"X-RapidAPI-Key": "6473c3ce7dmsh28c8afd093343dep1d0f1fjsn02e8bc02b53a",
+					"X-RapidAPI-Key": `${API_KEY_ONE}`,
 					"X-RapidAPI-Host": "translo.p.rapidapi.com",
 				},
 				body: encodedParams,
@@ -51,7 +50,6 @@ function Index({ allProps }) {
 				setError(response.status), callCurrenState(), setSuccess(null);
 			}
 			const data = await response.json();
-			console.log(data);
 			setLoading(false);
 			const { ok, translated_text } = data;
 
@@ -222,9 +220,9 @@ function Index({ allProps }) {
 										<span className="text-[10px] font-semibold leading-none">Select lang</span>
 									</div>
 									<div
-										className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 -translate-y-3
-													${fromLangDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
-												`}>
+										className={`transition duration-300 transform ease-in-out absolute rounded-md bg-white w-64 md:w-72 p-2 md:right-full z-[5] shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] md:top-0 top-full -right-8 -translate-y-3 ${
+											fromLangDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+										} `}>
 										<div className="input-container">
 											<div className="relative">
 												<input

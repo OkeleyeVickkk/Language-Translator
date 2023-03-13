@@ -12,10 +12,11 @@ function App() {
 	const [error, setError] = useState(null); //set error if failed
 	const [success, setSuccess] = useState(null); //set success if successful
 	const [loading, setLoading] = useState(false); //loading to get result of translation
+	const [lang, setDetectedLanguage] = useState("");
 
 	return (
 		<div className="App">
-			{result ? <Modal props={[result, setResult]} /> : null}
+			{result ? <Modal props={[result, setResult]} language={[lang, setDetectedLanguage]} /> : null}
 
 			<div className="p-4 mb-6">
 				<button
@@ -53,7 +54,7 @@ function App() {
 				{view ? (
 					<Index allProps={{ container, setContainer, error, setError, success, setSuccess, loading, setLoading }} />
 				) : (
-					<LanguageDetect allProps={{ container, setContainer, error, setError, success, setSuccess, loading, setLoading }} />
+					<LanguageDetect allProps={{ loading, setContainer, setError, setSuccess, setLoading, setResult, lang, setDetectedLanguage }} />
 				)}
 			</div>
 		</div>

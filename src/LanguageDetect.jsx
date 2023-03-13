@@ -1,18 +1,16 @@
 import { Icon } from "@iconify-icon/react";
 import { useRef } from "react";
-import DetectLanguage from "detectlanguage";
 
-const API_KEY_TWO = import.meta.env.VITE_LANG_DETECT_KEY;
-const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
+const RAPID_KEY = import.meta.env.VITE_RAPID_API_KEY;
 const voices = speechSynthesis.getVoices(); // get all voices
 
 const LanguageDetect = ({ allProps }) => {
-	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
+	const { setContainer, setError, loading, setLoading, setResult, lang, setDetectedLanguage } = allProps;
 
 	const textAreaRef = useRef();
 
 	function callCurrenState() {
-		// set container to true then hide it after 5 seconds
+		// set container to truconst idei await after 5 seconds
 		setContainer(true);
 		setTimeout(() => {
 			setContainer(false);
@@ -58,14 +56,29 @@ const LanguageDetect = ({ allProps }) => {
 		}
 	}
 
-	function runDetection(e) {
+	async function runDetection(e) {
 		e.preventDefault();
-		setLoading(true);
 		if (textAreaRef.current.value) {
+			setLoading(true);
 			const languageText = textAreaRef.current.value;
-			languageDetector.detect(languageText).then(function (result) {
-				console.log(JSON.stringify(result));
-			});
+			try {
+				const options = {
+					method: "GET",
+					headers: {
+						"X-RapidAPI-Key": `${RAPID_KEY}`,
+						"X-RapidAPI-Host": "translo.p.rapidapi.com",
+					},
+				};
+				const response = await fetch(`https://translo.p.rapidapi.com/api/v3/detect?text=${languageText}`, options);
+				const language = await response.json();
+				const { ok, lang } = language;
+				ok === true ? (setLoading(false), setResult(true), setDetectedLanguage(lang)) : null;
+			} catch (error) {
+				console.log(error);
+			}
+		} else {
+			setError("Cannot detect empty sentence");
+			callCurrenState();
 		}
 	}
 	return (
