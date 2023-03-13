@@ -18,7 +18,7 @@ function App() {
 			{result ? <Modal props={[result, setResult]} language={[lang, setDetectedLanguage]} /> : null}
 			<div className="p-4 mb-6">
 				<button
-					className="transition duration-300 ease-in-out bg-white rounded-md p-3 text-xs leading-tight font-bold shadow-md hover:bg-primary border hover:shadow-none hover:text-white hover:bg-opacity-50 hover:border hover:border-white"
+					className="transition duration-300 ease-in-out bg-white rounded-md p-3 text-xs leading-tight font-bold shadow-md md:hover:bg-primary border md:hover:shadow-none md:hover:text-white md:hover:bg-opacity-50 md:hover:border md:hover:border-white"
 					onClick={() => changeView((prev) => !prev)}>
 					{view ? "Detect language" : "Translate language"}
 				</button>
