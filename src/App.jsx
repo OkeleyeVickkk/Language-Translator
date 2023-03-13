@@ -34,14 +34,14 @@ function App() {
 						container === true ? "opacity-100 pointer-events-auto visible" : "invisible opacity-0 pointer-events-none"
 					}`}>
 					<div
-						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 items-center gap-2 md:whitespace-nowrap ${
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-48 sm:w-64 h-max py-3 px-3 items-center gap-2 ${
 							success ? "flex" : "hidden"
 						}`}>
 						<Icon icon="fa-solid:check-circle" className="text-green-600" />
 						<small className="font-semibold text-xs">{success}</small>
 					</div>
 					<div
-						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-max sm:w-64 h-max py-3 px-3 flex items-center gap-2 whitespace-nowrap  ${
+						className={`transition duration-200 ease-in-out shadow-[rgba(99,99,99,0.2)_0px_2px_8px_0px] bg-white rounded-md w-64 sm:w-72 h-max py-3 px-3 flex items-center gap-2  ${
 							error ? "flex" : "hidden"
 						}`}>
 						<Icon icon="material-symbols:cancel-rounded" className="text-red-500 scale-110" />

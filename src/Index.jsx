@@ -56,8 +56,8 @@ function Index({ allProps }) {
 			const { ok, translated_text } = data;
 
 			ok === true
-				? (setError("I cannot translate your text currently, please report error to my creator"), callCurrenState(), setSuccess(false))
-				: (toTextareaRef.current.value = translated_text);
+				? (toTextareaRef.current.value = translated_text)
+				: (setError("I cannot translate your text currently, please report error to my creator"), callCurrenState(), setSuccess(false));
 		} catch (error) {
 			setError("Error trying to translate what you entered");
 		}
