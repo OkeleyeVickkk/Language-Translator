@@ -52,7 +52,7 @@ function App() {
 				{view ? (
 					<Index allProps={{ container, setContainer, error, setError, success, setSuccess, loading, setLoading }} />
 				) : (
-					<LanguageDetect loadingProps={[loading, setLoading]} />
+					<LanguageDetect allProps={{ container, setContainer, error, setError, success, setSuccess, loading, setLoading }} />
 				)}
 			</div>
 		</div>

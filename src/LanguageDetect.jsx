@@ -7,10 +7,34 @@ const languageDetector = new DetectLanguage(`${API_KEY_TWO}`);
 
 const text = "ọlọrun iyanu";
 
-const LanguageDetect = ({ loadingProps }) => {
-	const [loading, setLoading] = loadingProps;
+const LanguageDetect = ({ allProps }) => {
+	const { container, setContainer, error, setError, success, setSuccess, loading, setLoading } = allProps;
 
 	const textAreaRef = useRef();
+
+	function callCurrenState() {
+		// set container to true then hide it after 5 seconds
+		setContainer(true);
+		setTimeout(() => {
+			setContainer(false);
+		}, 5000);
+	}
+
+	function handleCutText() {
+		const clippy = navigator.clipboard;
+		if (!textAreaRef.current.value) {
+			setContainer(true);
+			callCurrenState();
+			setError("Cannot copy empty space");
+		} else if (clippy && textAreaRef.current.value) {
+			clippy.writeText(textAreaRef.current.value);
+			textAreaRef.current.value = "";
+		} else {
+			setContainer(true);
+			callCurrenState();
+			setError("Error copying text");
+		}
+	}
 
 	function runDetection(e) {
 		e.preventDefault();
@@ -40,10 +64,11 @@ const LanguageDetect = ({ loadingProps }) => {
 					<div className="flex flex-col items-center">
 						<button
 							type="button"
-							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto">
+							className="p-2 rounded-full transition duration-300 ease-in-out bg-transparent hover:bg-gray-100 w-max mx-auto"
+							onClick={handleCutText}>
 							<Icon className="flex" icon="clarity:scissors-line" />
 						</button>
-						<span className="leading-none text-xs font-semibold">Read</span>
+						<span className="leading-none text-xs font-semibold">Cut</span>
 					</div>
 					<div className="flex flex-col items-center">
 						<button
