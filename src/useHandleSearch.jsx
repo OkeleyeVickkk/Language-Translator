@@ -25,7 +25,8 @@ const useHandleSearch = (searchValue) => {
 				const { code, lang } = language;
 				const newCode = code.toLowerCase();
 				const newLang = lang.toLowerCase();
-				return newValue === newCode || newValue === newLang;
+				return newValue && (newCode.includes(newValue) || newLang.includes(newValue))
+//newValue === newCode || newValue === newLang;
 			});
 			filteredSearchArray.length !== 0 ? setSearchResultArray(filteredSearchArray) : setSearchResultArray(codesArray);
 		} else {
