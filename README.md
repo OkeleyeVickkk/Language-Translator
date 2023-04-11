@@ -3,7 +3,6 @@
 Language Translator is a Web App that takes in input texts or sentences of any language and converts it into another language <br>
 Inspiration to this came from a friend trying to learn a new language in college and difficulty in access available materials to learn a new language easily. This immediately struck in the idea into me to create something from the Frontend aspect of it. <br>
 I learnt quite a lot of things from this project enough to be able to build this up all by myself😊😊😊
-
 </p>
 
 <h3 align="left">Languages and Tools:</h3>
